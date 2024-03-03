@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ReservationComponent } from './reservation/reservation.component';
 import { ReservationOkComponent } from './reservation-ok/reservation-ok.component';
 import { ReservationNokComponent } from './reservation-nok/reservation-nok.component';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 
 
@@ -13,7 +14,8 @@ import { ReservationNokComponent } from './reservation-nok/reservation-nok.compo
     ReservationNokComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    SharedModule
   ]
 })
 export class KreservationsModule { }

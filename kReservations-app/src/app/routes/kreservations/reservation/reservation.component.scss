@@ -1,0 +1,55 @@
+//TODO: crear las variables en variables y importarlas aqui ( para la medida texto, para el color, para etc..)
+.reservation {
+  .reservation-form {
+    background-color: #fff;
+    padding: 15px 52px;
+
+    .form-line {
+      margin-top: 12px;
+      margin-bottom: 12px;
+    }
+
+    .form-label {
+      margin-right: 10px;
+      margin-top: 0.625em;
+      margin-bottom: 0.625em;
+      color: #2c3345;
+      font-size: 16px;
+      font-weight: bold;
+    }
+    .form-header {
+      .form-subheader {
+        color: #2c3345;
+      }
+    }
+
+    .form-content {
+      .not-valid-field {
+        color: red;
+      }
+      .calendar-padding {
+        padding: 0px 15px;
+      }
+      .form-field-checkbox {
+        vertical-align: top;
+        padding: 5px;
+      }
+      .divisor {
+        border-bottom: 1px solid;
+      }
+      .form-label-calendar {
+        width: 100%;
+        margin-bottom: 14px;
+        color: #2c3345;
+        font-weight: bold;
+      }
+    }
+    .form-submit-reservation {
+      .submit-button {
+        background-color: #18bd5b;
+        border-color: #18bd5b;
+        color: #fff;
+      }
+    }
+  }
+}

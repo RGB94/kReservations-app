@@ -27,7 +27,13 @@
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": ["src/favicon.ico", "src/assets"],
-            "styles": ["src/styles.scss"],
+            "styles": [
+              "src/styles.scss",
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "node_modules/primeng-lts/resources/themes/saga-blue/theme.css",
+              "node_modules/primeng-lts/resources/primeng.min.css",
+              "node_modules/primeicons/primeicons.css"
+            ],
             "scripts": []
           },
           "configurations": {
@@ -53,12 +59,12 @@
               "outputHashing": "all"
             },
             "development": {
-              "buildOptimizer": true,
-              "optimization": true,
-              "vendorChunk": false,
-              "extractLicenses": true,
-              "sourceMap": false,
-              "namedChunks": false,
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true,
               "aot": true
             }
           },
@@ -66,6 +72,9 @@
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "kReservations-app:build"
+          },
           "configurations": {
             "production": {
               "browserTarget": "kReservations-app:build:production"
@@ -91,7 +100,13 @@
             "karmaConfig": "karma.conf.js",
             "inlineStyleLanguage": "scss",
             "assets": ["src/favicon.ico", "src/assets"],
-            "styles": ["src/styles.scss"],
+            "styles": [
+              "src/styles.scss",
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "node_modules/primeng-lts/resources/themes/saga-blue/theme.css",
+              "node_modules/primeng-lts/resources/primeng.min.css",
+              "node_modules/primeicons/primeicons.css"
+            ],
             "scripts": []
           }
         }

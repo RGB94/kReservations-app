@@ -1,3 +1,185 @@
 <div class="reservation">
-test
+  <div class="reservation-form p-fluid">
+    <form (ngSubmit)="showReservationSummary()">
+      <section class="form-header">
+        <h2>Reserve Table</h2>
+        <div class="form-subHeader">
+          Please fill the form below accurately.. welcome!
+        </div>
+      </section>
+      <section class="form-content">
+        <div class="row form-line">
+          <div class="col-md-2">
+            <label class="form-label" for="name">Name</label>
+          </div>
+          <div class="col-md-4">
+            <input type="text" pInputText [(ngModel)]="name" name="name" />
+          </div>
+        </div>
+        <div class="row form-line">
+          <div class="col-md-2">
+            <label class="form-label">Email</label>
+          </div>
+          <div class="col-md-4">
+            <!-- Add error message if email not valid -->
+            <input
+              type="text"
+              placeholder="ex: myname@kafe.com"
+              pInputText
+              [(ngModel)]="email"
+              name="email"
+              (ngModelChange)="handleInputEmail($event)"
+            />
+            <span class="not-valid-field" *ngIf="!isValidEmail"
+              >Please enter a valid email address.</span
+            >
+          </div>
+        </div>
+        <div class="row form-line">
+          <div class="col-md-2">
+            <label class="form-label">Phone</label>
+          </div>
+          <div class="col-md-4">
+            <p-inputMask
+              mask="+99 999999999"
+              placeholder="+34 655 456 988"
+              [(ngModel)]="phone"
+              name="phone"
+            ></p-inputMask>
+          </div>
+        </div>
+
+        <div class="row form-line">
+          <div class="col-md-2">
+            <label class="form-label">Party Size</label>
+          </div>
+          <div class="col-md-4">
+            <p-inputNumber
+              [(ngModel)]="partySize"
+              inputId="minmax"
+              inputId="minmax"
+              mode="decimal"
+              [min]="1"
+              [max]="12"
+              name="partySize"
+            ></p-inputNumber>
+            <div>
+              {{ partySizeInfo }}
+            </div>
+          </div>
+        </div>
+
+        <div class="row form-line">
+          <div class="col-md-2">
+            <label class="form-label">Region Preference</label>
+          </div>
+          <div class="col-md-4">
+            <p-dropdown
+              [options]="regions"
+              [(ngModel)]="selectedRegion"
+              optionLabel="name"
+              name="regions"
+              (onChange)="updatePartySizeLimit()"
+            ></p-dropdown>
+            <div *ngIf="!isChildrenPartyAllowed()">
+              <p class="not-valid-field">
+                **Please note:** The Bar does not allow parties with children.
+              </p>
+            </div>
+
+            <div *ngIf="selectedRegion.smokingAllowed">
+              <label>Smoking during dinner</label>
+              <p-checkbox
+                class="form-field-checkbox"
+                [(ngModel)]="smoking"
+                [binary]="true"
+                name="smoking"
+              ></p-checkbox>
+            </div>
+          </div>
+        </div>
+        <ng-container *ngIf="isChildrenPartyAllowed()">
+          <div class="row form-line">
+            <div class="col-md-2">
+              <label for="children">Children in party</label>
+            </div>
+            <div class="col-md-4">
+              <p-inputNumber
+                [(ngModel)]="children"
+                inputId="minmax"
+                inputId="minmax"
+                mode="decimal"
+                [min]="0"
+                name="children"
+              ></p-inputNumber>
+            </div>
+          </div>
+
+          <div class="row form-line">
+            <div class="col-md-3">
+              <label>Celebrating a birthday?</label>
+              <p-checkbox
+                class="form-field-checkbox"
+                [(ngModel)]="birthday"
+                [binary]="true"
+                name="birthday"
+              ></p-checkbox>
+            </div>
+          </div>
+
+          <div class="row form-line">
+            <div class="col-md-3">
+              <div *ngIf="birthday">
+                <label for="birthdayName"
+                  >Birthday person's name (optional)</label
+                >
+                <input
+                  type="text"
+                  name="birthdayName"
+                  pInputText
+                  [(ngModel)]="birthdayName"
+                />
+              </div>
+            </div>
+          </div>
+        </ng-container>
+
+        <!-- TODO: remove -->
+        <!-- <div class="row form-line">
+          <div class="col-12">
+            <div class="divisor"></div>
+          </div>
+        </div> -->
+        <div class="row form-label-calendar">
+          <div class="col-12">
+            <label>Reservation</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="calendar-padding">
+            <p-calendar
+              [(ngModel)]="selectedDate"
+              [inline]="true"
+              [showWeek]="true"
+              name="selectedDate"
+            ></p-calendar>
+          </div>
+
+          <div class="col-3">
+            <p-dropdown
+              [options]="timeSlots"
+              [(ngModel)]="selectedTime"
+              optionLabel="name"
+              name="timeSlots"
+              placeholder="Select a time slot"
+            ></p-dropdown>
+          </div>
+        </div>
+      </section>
+
+      <section class="form-submit-reservation">
+        <button class="submit-button" type="submit">Submit Reservation</button>
+      </section>
+    </form>
+  </div>
 </div>
