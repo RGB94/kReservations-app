@@ -1,16 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-
-interface Region {
-  name: string;
-  maxPartySize: number;
-  smokingAllowed: boolean;
-  childrenAllowed: boolean;
-}
-
-interface TimeSlot {
-  name: string;
-  code: string;
-}
+import { Reservation } from 'src/app/common/constants';
+import {
+  Region,
+  TimeSlot,
+} from 'src/app/core/interfaces/reservation.interface';
 
 @Component({
   selector: 'reservation',
@@ -19,65 +12,104 @@ interface TimeSlot {
 })
 export class ReservationComponent implements OnInit {
   // Available time slots
-  timeSlots: TimeSlot[] = [];
+  timeSlots!: TimeSlot[];
   // Available regions and their details
-  regions: Region[] = [
-    {
-      name: 'Main Hall',
-      maxPartySize: 12,
-      smokingAllowed: false,
-      childrenAllowed: true,
-    },
-    {
-      name: 'Bar',
-      maxPartySize: 4,
-      smokingAllowed: false,
-      childrenAllowed: false,
-    },
-    {
-      name: 'Riverside',
-      maxPartySize: 8,
-      smokingAllowed: false,
-      childrenAllowed: true,
-    },
-    {
-      name: 'Riverside (smoking allowed)',
-      maxPartySize: 6,
-      smokingAllowed: true,
-      childrenAllowed: false,
-    },
-  ];
+  regions!: Region[];
 
   // User input variables
-  selectedDate: Date = new Date();
-  selectedTime: TimeSlot | undefined = undefined;
-  name: string = '';
-  email: string = '';
-  phone: string = '';
-  partySize: number = 1;
-  selectedRegion: Region = this.regions[0];
-  children: number = 0;
-  smoking: boolean = false;
-  birthday: boolean = false;
-  isValidEmail: boolean = false;
-  isValidPhone: boolean = false;
-  birthdayName: string = '';
-  //TODO: crear las constantes en el fichero de constantes y luego importarlas aqui
-  partySizeInfo: string = 'Seating 12 or fewer per table';
-  emailRegex: RegExp = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  selectedDate!: Date;
+  selectedTime!: TimeSlot | undefined;
+  name!: string;
+  email!: string;
+  phone!: string;
+  partySize!: number;
+  selectedRegion!: Region;
+  children!: number;
+  maxPartySize!: number; //Main hall init
+  smoking!: boolean;
+  birthday!: boolean;
+  isValidEmail!: boolean;
+  isValidPhone!: boolean;
+  birthdayName!: string;
+  partySizeInfo!: string;
+  emailRegex!: RegExp;
+  minDate!: Date;
+  maxDate!: Date;
+  isDataLoaded!: boolean;
 
   constructor() {}
 
-  //TODO: rellenar comentarios de los metodos
   ngOnInit(): void {
-    this.timeSlots = this.calculateTimeSlots('18:00', '22:00');
+    this.isDataLoaded = false;
+    this.initFormData();
+    this.timeSlots = this.calculateTimeSlots(
+      Reservation.RESERVATION_OPEN_TIME,
+      Reservation.RESERVATION_CLOSE_TIME
+    );
+    this.timeSlots.unshift({
+      code: '0',
+      name: 'Select a time slot',
+    });
+    this.isDataLoaded = true;
+  }
+
+  initFormData(): void {
+    // Available time slots
+    this.timeSlots = [];
+    // Available regions and their details
+    this.regions = [
+      {
+        name: Reservation.MAIN_HALL_REGION_NAME,
+        maxPartySize: Reservation.MAIN_HALL_PARTY_SIZE,
+        smokingAllowed: false,
+        childrenAllowed: true,
+      },
+      {
+        name: Reservation.BAR_REGION_NAME,
+        maxPartySize: Reservation.BAR_PARTY_SIZE,
+        smokingAllowed: false,
+        childrenAllowed: false,
+      },
+      {
+        name: Reservation.RIVERSIDE_REGION_NAME,
+        maxPartySize: Reservation.RIVERSIDE_PARTY_SIZE,
+        smokingAllowed: false,
+        childrenAllowed: true,
+      },
+      {
+        name: Reservation.RIVERSIDE_SMOKING_REGION_NAME,
+        maxPartySize: Reservation.RIVERSIDE_SMOKING_PARTY_SIZE,
+        smokingAllowed: true,
+        childrenAllowed: false,
+      },
+    ];
+
+    // User input variables
+    this.selectedDate = new Date(2024, 6, 24);
+    this.selectedTime = undefined;
+    this.name = '';
+    this.email = '';
+    this.phone = '';
+    this.partySize = Reservation.MIN_PARTY_SIZE;
+    this.selectedRegion = this.regions[0];
+    this.children = 0;
+    this.maxPartySize = Reservation.MAIN_HALL_PARTY_SIZE; //Main hall init
+    this.smoking = false;
+    this.birthday = false;
+    this.isValidEmail = false;
+    this.isValidPhone = false;
+    this.birthdayName = '';
+    this.partySizeInfo = Reservation.MAIN_HALL_PARTY_SIZE_INFO;
+    this.emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    this.minDate = new Date(2024, 6, 24); // July 24th, 2024
+    this.maxDate = new Date(2024, 6, 31); // July 31st, 2024;
   }
 
   /**
-   *
-   * @param startTime
-   * @param endTime
-   * @returns
+   * Calculates the time slots available
+   * @param startTime opening reservation time
+   * @param endTime end reservation time
+   * @returns time slots
    */
   calculateTimeSlots(startTime: string, endTime: string): TimeSlot[] {
     const timeSlots: TimeSlot[] = [];
@@ -110,8 +142,8 @@ export class ReservationComponent implements OnInit {
   }
 
   /**
-   *
-   * @param newEmail
+   * Checks if input email is valid
+   * @param newEmail user email
    */
   handleInputEmail(newEmail: string) {
     this.emailRegex.test(newEmail) === true
@@ -120,49 +152,74 @@ export class ReservationComponent implements OnInit {
   }
 
   /**
-   *
+   * Reset time slot selected when date changes
    * @param event
    */
   onDateSelect(event: any) {
-    this.selectedDate = event.value;
+    this.selectedTime = this.timeSlots[0];
   }
 
   /**
-   *
-   * @returns
+   * Checks if the children party is allowed based on the selected region name
+   * @returns true or false
    */
   isChildrenPartyAllowed(): boolean {
-    return this.selectedRegion.name == 'Bar' ||
-      this.selectedRegion.name == 'Riverside (smoking allowed)'
+    return this.selectedRegion.name == Reservation.BAR_REGION_NAME ||
+      this.selectedRegion.name == Reservation.RIVERSIDE_SMOKING_REGION_NAME
       ? false
       : true;
   }
 
   /**
-   *
+   * Updates the party size limit based on the user selected region
    */
   updatePartySizeLimit(): void {
     switch (this.selectedRegion.name) {
-      case 'Bar':
-        this.partySizeInfo = 'Seating 4 or fewer per table';
+      case Reservation.BAR_REGION_NAME:
+        this.partySizeInfo = Reservation.BAR_PARTY_SIZE_INFO;
+        this.maxPartySize = Reservation.BAR_PARTY_SIZE;
+        this.partySize = 1;
+        this.smoking = false;
+        this.birthday = false;
+        this.birthdayName = '';
         break;
-      case 'Riverside (smoking allowed)':
-        this.partySizeInfo = 'Seating 6 or fewer per table';
+      case Reservation.RIVERSIDE_SMOKING_REGION_NAME:
+        this.partySizeInfo = Reservation.RIVERSIDE_SMOKING_PARTY_SIZE_INFO;
+        this.maxPartySize = Reservation.RIVERSIDE_SMOKING_PARTY_SIZE;
+        this.partySize = 1;
+        this.birthday = false;
+        this.birthdayName = '';
         break;
-      case 'Main Hall':
-        this.partySizeInfo = 'Seating 12 or fewer per table';
+      case Reservation.MAIN_HALL_REGION_NAME:
+        this.partySizeInfo = Reservation.MAIN_HALL_PARTY_SIZE_INFO;
+        this.maxPartySize = Reservation.MAIN_HALL_PARTY_SIZE;
+        this.partySize = 1;
+        this.smoking = false;
         break;
-      case 'Riverside':
-        this.partySizeInfo = 'Seating 8 or fewer per table';
+      case Reservation.RIVERSIDE_REGION_NAME:
+        this.partySizeInfo = Reservation.RIVERSIDE_PARTY_SIZE_INFO;
+        this.maxPartySize = Reservation.RIVERSIDE_PARTY_SIZE;
+        this.partySize = 1;
+        this.smoking = false;
         break;
     }
   }
 
+  checkIsFormValid(): boolean {
+    return false;
+  }
+
   /**
-   *
+   * Jumps to the reservation summary component
    */
   showReservationSummary() {
-    //TODO: Implement logic to submit reservation data to backend or display confirmation message
+    // TODO: implementar logica de verificacion de campos e informar de los campos que se tienen que re ajustar.
+    if (this.checkIsFormValid()) {
+      // TODO: verificar que la diferencia de personas del party size y la fiesta de niños siempre es el maximo de personas que pueden ir
+      // TODO: verificar que el telefono y el email son correctos.
+      // TODO: verificar que los campos obligatorios han sido rellenados
+    } else {
+    }
     console.log('Reservation details:', {
       date: this.selectedDate,
       time: this.selectedTime,
