@@ -4,6 +4,7 @@ import {
   Region,
   TimeSlot,
 } from 'src/app/core/interfaces/reservation.interface';
+import { ReservationKafe } from 'src/app/core/services/reservation-kafe.service';
 
 @Component({
   selector: 'reservation',
@@ -18,7 +19,7 @@ export class ReservationComponent implements OnInit {
 
   // User input variables
   selectedDate!: Date;
-  selectedTime!: TimeSlot | undefined;
+  selectedTime!: TimeSlot;
   name!: string;
   email!: string;
   phone!: string;
@@ -37,11 +38,16 @@ export class ReservationComponent implements OnInit {
   maxDate!: Date;
   isDataLoaded!: boolean;
 
-  constructor() {}
+  constructor(private reservationService: ReservationKafe) {}
 
   ngOnInit(): void {
     this.isDataLoaded = false;
     this.initFormData();
+    this.isDataLoaded = true;
+  }
+
+  initFormData(): void {
+    // Available time slots
     this.timeSlots = this.calculateTimeSlots(
       Reservation.RESERVATION_OPEN_TIME,
       Reservation.RESERVATION_CLOSE_TIME
@@ -50,12 +56,6 @@ export class ReservationComponent implements OnInit {
       code: '0',
       name: 'Select a time slot',
     });
-    this.isDataLoaded = true;
-  }
-
-  initFormData(): void {
-    // Available time slots
-    this.timeSlots = [];
     // Available regions and their details
     this.regions = [
       {
@@ -86,7 +86,7 @@ export class ReservationComponent implements OnInit {
 
     // User input variables
     this.selectedDate = new Date(2024, 6, 24);
-    this.selectedTime = undefined;
+    this.selectedTime = this.timeSlots[0];
     this.name = '';
     this.email = '';
     this.phone = '';
@@ -194,12 +194,16 @@ export class ReservationComponent implements OnInit {
         this.partySizeInfo = Reservation.MAIN_HALL_PARTY_SIZE_INFO;
         this.maxPartySize = Reservation.MAIN_HALL_PARTY_SIZE;
         this.partySize = 1;
+        this.birthday = false;
+        this.birthdayName = '';
         this.smoking = false;
         break;
       case Reservation.RIVERSIDE_REGION_NAME:
         this.partySizeInfo = Reservation.RIVERSIDE_PARTY_SIZE_INFO;
         this.maxPartySize = Reservation.RIVERSIDE_PARTY_SIZE;
         this.partySize = 1;
+        this.birthday = false;
+        this.birthdayName = '';
         this.smoking = false;
         break;
     }
@@ -213,16 +217,9 @@ export class ReservationComponent implements OnInit {
    * Jumps to the reservation summary component
    */
   showReservationSummary() {
-    // TODO: implementar logica de verificacion de campos e informar de los campos que se tienen que re ajustar.
-    if (this.checkIsFormValid()) {
-      // TODO: verificar que la diferencia de personas del party size y la fiesta de niños siempre es el maximo de personas que pueden ir
-      // TODO: verificar que el telefono y el email son correctos.
-      // TODO: verificar que los campos obligatorios han sido rellenados
-    } else {
-    }
-    console.log('Reservation details:', {
+    this.reservationService.reservation = {
       date: this.selectedDate,
-      time: this.selectedTime,
+      time: { name: this.selectedTime?.name, code: this.selectedTime?.code },
       name: this.name,
       email: this.email,
       phone: this.phone,
@@ -232,6 +229,7 @@ export class ReservationComponent implements OnInit {
       smoking: this.smoking,
       birthday: this.birthday,
       birthdayName: this.birthdayName,
-    });
+    };
+    //TODO: implementar la ruta a reseervation summary
   }
 }

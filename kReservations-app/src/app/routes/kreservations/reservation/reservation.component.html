@@ -8,10 +8,13 @@
       <section class="form-content">
         <div class="row form-line">
           <div class="col-md-2">
-            <label class="form-label" for="name">* Name</label>
+            <label class="form-label" >* Name</label>
           </div>
           <div class="col-md-4">
-            <input type="text" pInputText [(ngModel)]="name" name="name" />
+            <input type="text" pInputText placeholder=" Kafe restaurant" [(ngModel)]="name" name="name" />
+            <div *ngIf="name.trim() === ''">
+              <span class="not-valid-field">Enter a valid name</span>
+            </div>
           </div>
         </div>
         <div class="row form-line">
@@ -29,7 +32,7 @@
               (ngModelChange)="handleInputEmail($event)"
             />
             <span class="not-valid-field" *ngIf="!isValidEmail"
-              >Please enter a valid email address.</span
+              >Enter a valid email address.</span
             >
           </div>
         </div>
@@ -44,6 +47,9 @@
               [(ngModel)]="phone"
               name="phone"
             ></p-inputMask>
+            <span class="not-valid-field" *ngIf="phone === ''"
+              >Enter a valid phone.</span
+            >
           </div>
         </div>
         <div class="row form-line">
@@ -59,8 +65,8 @@
               (onChange)="updatePartySizeLimit()"
             ></p-dropdown>
             <div *ngIf="!isChildrenPartyAllowed()">
-              <p class="not-valid-field">
-                **Please note:** Parties with children not permitted.
+              <p class="info-message">
+                Parties with children not permitted.
               </p>
             </div>
 
@@ -68,7 +74,7 @@
               *ngIf="selectedRegion.smokingAllowed"
               class="checkbox-container"
             >
-              <label class="form-label">* Smoking during dinner</label>
+              <label class="form-label">Smoking during dinner</label>
               <p-checkbox
                 class="form-field-checkbox"
                 [(ngModel)]="smoking"
@@ -89,7 +95,7 @@
               [max]="maxPartySize"
               name="partySize"
             ></p-inputNumber>
-            <div>
+            <div class="info-message">
               {{ partySizeInfo }}
             </div>
           </div>
@@ -106,6 +112,7 @@
                 inputId="minmax"
                 mode="decimal"
                 [min]="0"
+                [max]="partySize"
                 name="children"
               ></p-inputNumber>
             </div>
@@ -124,7 +131,7 @@
           </div>
 
           <div class="row form-line">
-            <div class="col-md-3">
+            <div class="col-md-5">
               <div *ngIf="birthday">
                 <label class="form-label"
                   >Birthday person's name (optional)</label
@@ -140,12 +147,6 @@
           </div>
         </ng-container>
 
-        <!-- TODO: remove -->
-        <!-- <div class="row form-line">
-          <div class="col-12">
-            <div class="divisor"></div>
-          </div>
-        </div> -->
         <div class="row form-label-calendar">
           <div class="col-12">
             <label>Reservation</label>
@@ -172,6 +173,9 @@
               name="timeSlots"
               placeholder="Select a time slot"
             ></p-dropdown>
+            <span class="not-valid-field" *ngIf="selectedTime?.code === '0'"
+              >* Select a time slot.</span
+            >
           </div>
         </div>
       </section>
