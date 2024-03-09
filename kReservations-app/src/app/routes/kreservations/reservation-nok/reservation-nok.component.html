@@ -1,1 +1,25 @@
-<p>reservation-nok works!</p>
+<div class="reservation-nok">
+  <section>
+    <div class="reservation-nok-header">
+      <h2>Reservation not confirmed!</h2>
+    </div>
+  </section>
+  <section>
+    <div class="reservation-nok-message">
+      We have not been able to make your reservation because the party size exceedes the maximum party size allowed in the restaurant.
+      On the {{day}} at {{reservationNotConfirmed?.selectedTime?.name}} p.m. we only have room for {{partySizeAllowed}} people.
+      Please consider to adjust your reservation by clicking the button below.
+    </div>
+  </section>
+  <section>
+    <div class="reservation-nok-button">
+      <div class="row">
+        <div class="col-md-2">
+          <button class="submit-button" (click)="editReservation()">
+            Edit Reservation
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

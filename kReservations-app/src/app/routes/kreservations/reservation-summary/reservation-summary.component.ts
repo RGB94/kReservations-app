@@ -1,6 +1,6 @@
 import {
   Reservation,
-  ReservationForm,
+  reservationNotConfirmed,
 } from 'src/app/core/interfaces/reservation.interface';
 import { ReservationKafe } from './../../../core/services/reservation-kafe.service';
 import { Component, OnInit } from '@angular/core';
@@ -14,7 +14,7 @@ import { map, filter } from 'rxjs/operators';
   styleUrls: ['./reservation-summary.component.scss'],
 })
 export class ReservationSummaryComponent implements OnInit {
-  reservationData: ReservationForm | undefined;
+  reservationData: reservationNotConfirmed | undefined;
   formattedDate: string | undefined = '';
 
   constructor(
@@ -24,7 +24,7 @@ export class ReservationSummaryComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.reservationData = this.reservationKafeService.reservation;
+    this.reservationData = this.reservationKafeService.reservationNotConfirmed;
     this.formattedDate = this.formatDate(this.reservationData?.selectedDate);
   }
 
@@ -36,9 +36,10 @@ export class ReservationSummaryComponent implements OnInit {
     return `${dayOfWeek}, ${day} ${year}`;
   }
 
-  editFormData(): void {
+  editReservation(): void {
     this.router.navigate(['/reservation']);
   }
+
   confirmReservation(): void {
     this.apiService
       .getReservations()
@@ -55,15 +56,15 @@ export class ReservationSummaryComponent implements OnInit {
       .subscribe({
         next: (filteredReservations: Reservation[]) => {
           if (!filteredReservations.length) {
-            // Create reservation and redirect to ok page
             this.createReservation();
           } else {
             // Redirect to nok reservation, say that the reservation time is already
             // taken and propose edit the reservation via button and redirect to /reservation
+            this.router.navigate(['/reservation-cancelled']);
           }
         },
         error: (error: any) => {
-          console.error(error);
+          // console.error(error);
         },
       });
   }
@@ -85,10 +86,12 @@ export class ReservationSummaryComponent implements OnInit {
     };
     this.apiService.createReservation(reservation).subscribe({
       next: (resp: any) => {
-        console.log('OK');
+        // redirect OK page
+        this.reservationKafeService.reservationConfirmed = reservation;
+        this.router.navigate(['/reservation-confirmed']);
       },
       error: (error: any) => {
-        console.error(error);
+        // console.error(error);
       },
     });
   }

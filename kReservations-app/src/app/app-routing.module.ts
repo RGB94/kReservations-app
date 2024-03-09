@@ -4,7 +4,10 @@ import { ReservationComponent } from './routes/kreservations/reservation/reserva
 import { ReservationSummaryComponent } from './routes/kreservations/reservation-summary/reservation-summary.component';
 import { FormGuard } from './core/services/form-guard.service';
 import { SummaryGuard } from './core/services/summary-guard.service';
+import { ReservationOkComponent } from './routes/kreservations/reservation-ok/reservation-ok.component';
+import { ReservationNokComponent } from './routes/kreservations/reservation-nok/reservation-nok.component';
 
+// I'm not hiding the routes for this app
 const routes: Routes = [
   {
     path: 'reservation',
@@ -15,6 +18,14 @@ const routes: Routes = [
     path: 'reservation-summary',
     component: ReservationSummaryComponent,
     canDeactivate: [SummaryGuard],
+  },
+  {
+    path: 'reservation-confirmed',
+    component: ReservationOkComponent
+  },
+  {
+    path: 'reservation-cancelled',
+    component: ReservationNokComponent
   },
   {
     path: '**',
@@ -28,8 +39,7 @@ const routes: Routes = [
       useHash: true,
       onSameUrlNavigation: 'reload',
       scrollPositionRestoration: 'enabled',
-      anchorScrolling: 'enabled',
-      // initialNavigation: 'enabled'
+      anchorScrolling: 'enabled'
     }),
   ],
   exports: [RouterModule],

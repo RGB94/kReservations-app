@@ -36,45 +36,7 @@
       "smoking": false,
       "birthday": false,
       "birthdayName": "",
-      "id": 0.6211735308169934
-    },
-    {
-      "day": "24",
-      "time": "19:00",
-      "name": "RUBEN",
-      "email": "rubengonzalez663@gmail.com",
-      "phone": "+23 232323232",
-      "partySize": 6,
-      "region": {
-        "name": "Main Hall",
-        "maxPartySize": 12,
-        "smokingAllowed": false,
-        "childrenAllowed": true
-      },
-      "children": 0,
-      "smoking": false,
-      "birthday": false,
-      "birthdayName": "",
-      "id": 0.052838487133038514
-    },
-    {
-      "day": "24",
-      "time": "19:30",
-      "name": "RUBEN",
-      "email": "rubengonzalez663@gmail.com",
-      "phone": "+23 232323232",
-      "partySize": 6,
-      "region": {
-        "name": "Main Hall",
-        "maxPartySize": 12,
-        "smokingAllowed": false,
-        "childrenAllowed": true
-      },
-      "children": 0,
-      "smoking": false,
-      "birthday": false,
-      "birthdayName": "",
-      "id": 0.4315504821100207
+      "id": 0.5108245805047726
     }
   ]
 }

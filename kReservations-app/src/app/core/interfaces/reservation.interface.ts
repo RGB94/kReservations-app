@@ -1,4 +1,4 @@
-export interface ReservationForm {
+export interface reservationNotConfirmed {
   selectedDate: Date;
   selectedTime: TimeSlot;
   name: string;

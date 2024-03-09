@@ -4,8 +4,7 @@ import { Router } from '@angular/router';
 import { RESERVATION_CONSTANTS } from 'src/app/common/constants';
 import {
   Region,
-  Reservation,
-  ReservationForm,
+  reservationNotConfirmed,
   TimeSlot,
 } from 'src/app/core/interfaces/reservation.interface';
 import { ReservationKafe } from 'src/app/core/services/reservation-kafe.service';
@@ -24,7 +23,7 @@ export class ReservationComponent implements OnInit {
   regions!: Region[];
 
   // User input variables
-  reservation!: ReservationForm;
+  reservation!: reservationNotConfirmed;
   emailRegex!: RegExp;
   isDataLoaded: boolean = false;
 
@@ -36,7 +35,7 @@ export class ReservationComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.initFormData(this.reservationService.reservation);
+    this.initFormData(this.reservationService.reservationNotConfirmed);
   }
 
   initReservation(): void {
@@ -61,7 +60,7 @@ export class ReservationComponent implements OnInit {
     };
   }
 
-  recoverPreviousReservation(reservationSummary: ReservationForm): void {
+  recoverPreviousReservation(reservationSummary: reservationNotConfirmed): void {
     this.reservation.selectedDate = reservationSummary.selectedDate;
     this.reservation.selectedTime = reservationSummary.selectedTime;
     this.reservation.name = reservationSummary.name;
@@ -81,7 +80,7 @@ export class ReservationComponent implements OnInit {
     this.reservation.maxDate = reservationSummary.maxDate;
   }
 
-  initFormData(reservationSummary: ReservationForm | undefined): void {
+  initFormData(reservationSummary: reservationNotConfirmed | undefined): void {
     // Available time slots
     this.timeSlots = this.calculateTimeSlots(
       RESERVATION_CONSTANTS.RESERVATION_OPEN_TIME,
@@ -239,7 +238,7 @@ export class ReservationComponent implements OnInit {
    * Jumps to the reservation summary component
    */
   showReservationSummary() {
-    this.reservationService.reservation = {
+    this.reservationService.reservationNotConfirmed = {
       selectedDate: this.reservation.selectedDate,
       selectedTime: {
         name: this.reservation.selectedTime?.name,
