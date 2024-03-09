@@ -5,6 +5,7 @@ import { RESERVATION_CONSTANTS } from 'src/app/common/constants';
 import {
   Region,
   Reservation,
+  ReservationForm,
   TimeSlot,
 } from 'src/app/core/interfaces/reservation.interface';
 import { ReservationKafe } from 'src/app/core/services/reservation-kafe.service';
@@ -23,7 +24,7 @@ export class ReservationComponent implements OnInit {
   regions!: Region[];
 
   // User input variables
-  reservation!: Reservation;
+  reservation!: ReservationForm;
   emailRegex!: RegExp;
   isDataLoaded: boolean = false;
 
@@ -60,7 +61,7 @@ export class ReservationComponent implements OnInit {
     };
   }
 
-  recoverPreviousReservation(reservationSummary: Reservation): void {
+  recoverPreviousReservation(reservationSummary: ReservationForm): void {
     this.reservation.selectedDate = reservationSummary.selectedDate;
     this.reservation.selectedTime = reservationSummary.selectedTime;
     this.reservation.name = reservationSummary.name;
@@ -80,7 +81,7 @@ export class ReservationComponent implements OnInit {
     this.reservation.maxDate = reservationSummary.maxDate;
   }
 
-  initFormData(reservationSummary: Reservation | undefined): void {
+  initFormData(reservationSummary: ReservationForm | undefined): void {
     // Available time slots
     this.timeSlots = this.calculateTimeSlots(
       RESERVATION_CONSTANTS.RESERVATION_OPEN_TIME,

@@ -1,7 +1,12 @@
-import { Reservation } from 'src/app/core/interfaces/reservation.interface';
+import {
+  Reservation,
+  ReservationForm,
+} from 'src/app/core/interfaces/reservation.interface';
 import { ReservationKafe } from './../../../core/services/reservation-kafe.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { ApiService } from 'src/app/core/services/api.service';
+import { map, filter } from 'rxjs/operators';
 
 @Component({
   selector: 'reservation-summary',
@@ -9,11 +14,12 @@ import { Router } from '@angular/router';
   styleUrls: ['./reservation-summary.component.scss'],
 })
 export class ReservationSummaryComponent implements OnInit {
-  reservationData: Reservation | undefined;
+  reservationData: ReservationForm | undefined;
   formattedDate: string | undefined = '';
 
   constructor(
     private reservationKafeService: ReservationKafe,
+    private apiService: ApiService,
     private router: Router
   ) {}
 
@@ -33,5 +39,57 @@ export class ReservationSummaryComponent implements OnInit {
   editFormData(): void {
     this.router.navigate(['/reservation']);
   }
-  confirmReservation(): void {}
+  confirmReservation(): void {
+    this.apiService
+      .getReservations()
+      .pipe(
+        map((reservations: Reservation[]) =>
+          reservations.filter(
+            (reservation: Reservation) =>
+              reservation.day ===
+                String(this.reservationData?.selectedDate?.getDate()) &&
+              reservation.time === this.reservationData?.selectedTime?.code
+          )
+        )
+      )
+      .subscribe({
+        next: (filteredReservations: Reservation[]) => {
+          if (!filteredReservations.length) {
+            // Create reservation and redirect to ok page
+            this.createReservation();
+          } else {
+            // Redirect to nok reservation, say that the reservation time is already
+            // taken and propose edit the reservation via button and redirect to /reservation
+          }
+        },
+        error: (error: any) => {
+          console.error(error);
+        },
+      });
+  }
+
+  createReservation(): void {
+    let reservation: Reservation = {
+      day: String(this.reservationData?.selectedDate?.getDate()),
+      time: this.reservationData?.selectedTime?.code,
+      name: this.reservationData?.name,
+      email: this.reservationData?.email,
+      phone: this.reservationData?.phone,
+      partySize: this.reservationData?.partySize,
+      region: this.reservationData?.selectedRegion,
+      children: this.reservationData?.children,
+      smoking: this.reservationData?.smoking,
+      birthday: this.reservationData?.birthday,
+      birthdayName: this.reservationData?.birthdayName,
+      id: Math.random(), // creates random ID
+    };
+    this.apiService.createReservation(reservation).subscribe({
+      next: (resp: any) => {
+        console.log('OK');
+      },
+      error: (error: any) => {
+        console.error(error);
+      },
+    });
+  }
 }

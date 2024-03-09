@@ -1,4 +1,4 @@
-export interface Reservation {
+export interface ReservationForm {
   selectedDate: Date;
   selectedTime: TimeSlot;
   name: string;
@@ -16,6 +16,21 @@ export interface Reservation {
   partySizeInfo: string;
   minDate: Date;
   maxDate: Date;
+}
+
+export interface Reservation {
+  id: number | undefined;
+  day: string | undefined;
+  time: string | undefined;
+  name: string | undefined;
+  email: string | undefined;
+  phone: string | undefined;
+  partySize: number | undefined;
+  region: Region | undefined;
+  children: number | undefined;
+  smoking: boolean | undefined;
+  birthday: boolean | undefined;
+  birthdayName: string | undefined;
 }
 
 export interface Region {
