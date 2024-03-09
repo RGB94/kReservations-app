@@ -1,0 +1,70 @@
+@import "../../../../styles.scss";
+.reservation {
+  ::ng-deep {
+    .p-inputtext {
+      color: $text-color;
+    }
+  }
+  background-image: url("../../../../assets/images/kafe-wallpaper.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+
+  padding: 15px 52px;
+  .reservation-form {
+    background-color: $color-white;
+    padding: 15px 32px;
+
+    .form-line {
+      margin-top: 12px;
+      margin-bottom: 12px;
+    }
+
+    .form-label {
+      margin-right: 10px;
+      margin-top: 0.625em;
+      margin-bottom: 0.625em;
+      font-weight: bold;
+    }
+
+    .form-content {
+      .checkbox-container {
+        display: flex;
+        align-items: center;
+      }
+      .not-valid-field {
+        color: $color-red;
+      }
+      .info-message {
+        color: $color-blue;
+      }
+      .calendar-padding {
+        padding: 0px 15px;
+      }
+      .form-field-checkbox {
+        vertical-align: top;
+        padding: 5px;
+      }
+      .divisor {
+        border-bottom: 1px solid;
+      }
+      .form-label-calendar {
+        width: 100%;
+        margin-bottom: 14px;
+        font-weight: bold;
+      }
+    }
+    .form-submit-reservation {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      position: relative;
+      padding: 30px 52px;
+      .submit-button {
+        color: $color-white;
+        background: linear-gradient(0deg, #666 0, #000);
+        border-color: #000;
+      }
+    }
+  }
+}

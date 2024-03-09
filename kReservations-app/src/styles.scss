@@ -1,1 +1,10 @@
-/* You can add global styles to this file, and also import other style files */
+$text-color: #2c3345;
+$submit-button-color: #18bd5b;
+$color-red: red;
+$color-white: white;
+$font-size: 16px;
+$color-blue: rgb(0, 89, 255);
+
+body {
+  color: $text-color;
+}

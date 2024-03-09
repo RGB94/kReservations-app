@@ -1,1 +1,26 @@
-<p>reservation-ok works!</p>
+<div class="reservation-ok">
+  <section>
+    <div class="reservation-ok-header">
+      <h2>Reservation confirmed!</h2>
+    </div>
+  </section>
+  <section>
+    <div class="reservation-ok-message">
+      We have confirmed the reservation in {{ reservation?.name }} name on the
+      {{ reservation?.day }} at {{ reservation?.time }} p.m. for
+      {{ reservation?.partySize }} people in the
+      {{ reservation?.region?.name }} region
+    </div>
+  </section>
+  <section>
+    <div class="reservation-ok-button">
+      <div class="row">
+        <div class="col-md-2">
+          <button class="submit-button" (click)="startNewReservation()">
+            New Reservation
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

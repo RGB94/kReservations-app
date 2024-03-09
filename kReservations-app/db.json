@@ -1,0 +1,42 @@
+{
+  "reservations": [
+    {
+      "id": 0,
+      "day": "24",
+      "time": "18:00",
+      "name": "test",
+      "email": "test",
+      "phone": "test",
+      "partySize": 5,
+      "region": {
+        "name": "Bar",
+        "maxPartySize": 12,
+        "smokingAllowed": false,
+        "childrenAllowed": true
+      },
+      "children": 0,
+      "smoking": false,
+      "birthday": true,
+      "birthdayName": ""
+    },
+    {
+      "day": "24",
+      "time": "18:30",
+      "name": "RUBEN",
+      "email": "rubengonzalez663@gmail.com",
+      "phone": "+23 232323232",
+      "partySize": 6,
+      "region": {
+        "name": "Main Hall",
+        "maxPartySize": 12,
+        "smokingAllowed": false,
+        "childrenAllowed": true
+      },
+      "children": 0,
+      "smoking": false,
+      "birthday": false,
+      "birthdayName": "",
+      "id": 0.5108245805047726
+    }
+  ]
+}

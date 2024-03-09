@@ -1,0 +1,13 @@
+@import "../../../../styles.scss";
+.reservation-nok {
+  padding: 15px 52px;
+  &-message {
+    background-color: $color-white;
+  }
+  &-button {
+    padding-top: 20px;
+    color: $color-white;
+    // background: linear-gradient(0deg, #666 0, #000);
+    border-color: #000;
+  }
+}
