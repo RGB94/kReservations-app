@@ -5,6 +5,11 @@
       color: $text-color;
     }
   }
+  background-image: url("../../../../assets/images/kafe-wallpaper.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+
   padding: 15px 52px;
   .reservation-form {
     background-color: $color-white;
@@ -20,8 +25,6 @@
       margin-top: 0.625em;
       margin-bottom: 0.625em;
       font-weight: bold;
-    }
-    .form-header {
     }
 
     .form-content {
@@ -52,10 +55,15 @@
       }
     }
     .form-submit-reservation {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      position: relative;
+      padding: 30px 52px;
       .submit-button {
-        background-color: $submit-button-color;
-        border-color: $submit-button-color;
         color: $color-white;
+        background: linear-gradient(0deg, #666 0, #000);
+        border-color: #000;
       }
     }
   }

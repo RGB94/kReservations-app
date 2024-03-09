@@ -1,7 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { Reservation } from 'src/app/common/constants';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
+import { RESERVATION_CONSTANTS } from 'src/app/common/constants';
 import {
   Region,
+  Reservation,
   TimeSlot,
 } from 'src/app/core/interfaces/reservation.interface';
 import { ReservationKafe } from 'src/app/core/services/reservation-kafe.service';
@@ -12,97 +15,114 @@ import { ReservationKafe } from 'src/app/core/services/reservation-kafe.service'
   styleUrls: ['./reservation.component.scss'],
 })
 export class ReservationComponent implements OnInit {
+  @ViewChild('reservationForm') reservationForm!: NgForm; // Use type assertion for type safety
+
   // Available time slots
   timeSlots!: TimeSlot[];
   // Available regions and their details
   regions!: Region[];
 
   // User input variables
-  selectedDate!: Date;
-  selectedTime!: TimeSlot;
-  name!: string;
-  email!: string;
-  phone!: string;
-  partySize!: number;
-  selectedRegion!: Region;
-  children!: number;
-  maxPartySize!: number; //Main hall init
-  smoking!: boolean;
-  birthday!: boolean;
-  isValidEmail!: boolean;
-  isValidPhone!: boolean;
-  birthdayName!: string;
-  partySizeInfo!: string;
+  reservation!: Reservation;
   emailRegex!: RegExp;
-  minDate!: Date;
-  maxDate!: Date;
-  isDataLoaded!: boolean;
+  isDataLoaded: boolean = false;
 
-  constructor(private reservationService: ReservationKafe) {}
-
-  ngOnInit(): void {
-    this.isDataLoaded = false;
-    this.initFormData();
-    this.isDataLoaded = true;
+  constructor(
+    private reservationService: ReservationKafe,
+    private router: Router
+  ) {
+    this.emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   }
 
-  initFormData(): void {
+  ngOnInit(): void {
+    this.initFormData(this.reservationService.reservation);
+  }
+
+  initReservation(): void {
+    this.reservation = {
+      selectedDate: new Date(2024, 6, 24),
+      selectedTime: this.timeSlots[0],
+      name: '',
+      email: '',
+      phone: '',
+      partySize: RESERVATION_CONSTANTS.MIN_PARTY_SIZE,
+      selectedRegion: this.regions[0],
+      maxPartySize: RESERVATION_CONSTANTS.MAIN_HALL_PARTY_SIZE, //Main hall init
+      children: 0,
+      smoking: false,
+      birthday: false,
+      birthdayName: '',
+      isValidEmail: false,
+      isValidPhone: false,
+      partySizeInfo: '',
+      minDate: new Date(2024, 6, 24), // July 24th, 2024
+      maxDate: new Date(2024, 6, 31), // July 31st, 2024;
+    };
+  }
+
+  recoverPreviousReservation(reservationSummary: Reservation): void {
+    this.reservation.selectedDate = reservationSummary.selectedDate;
+    this.reservation.selectedTime = reservationSummary.selectedTime;
+    this.reservation.name = reservationSummary.name;
+    this.reservation.email = reservationSummary.email;
+    this.reservation.phone = reservationSummary.phone;
+    this.reservation.partySize = reservationSummary.partySize;
+    this.reservation.selectedRegion = reservationSummary.selectedRegion;
+    this.reservation.children = reservationSummary.children;
+    this.reservation.maxPartySize = reservationSummary.maxPartySize;
+    this.reservation.smoking = reservationSummary.smoking;
+    this.reservation.birthday = reservationSummary.birthday;
+    this.reservation.isValidEmail = reservationSummary.isValidEmail;
+    this.reservation.isValidPhone = reservationSummary.isValidPhone;
+    this.reservation.birthdayName = reservationSummary.birthdayName;
+    this.reservation.partySizeInfo = reservationSummary.partySizeInfo;
+    this.reservation.minDate = reservationSummary.minDate;
+    this.reservation.maxDate = reservationSummary.maxDate;
+  }
+
+  initFormData(reservationSummary: Reservation | undefined): void {
     // Available time slots
     this.timeSlots = this.calculateTimeSlots(
-      Reservation.RESERVATION_OPEN_TIME,
-      Reservation.RESERVATION_CLOSE_TIME
+      RESERVATION_CONSTANTS.RESERVATION_OPEN_TIME,
+      RESERVATION_CONSTANTS.RESERVATION_CLOSE_TIME
     );
-    this.timeSlots.unshift({
-      code: '0',
-      name: 'Select a time slot',
-    });
     // Available regions and their details
     this.regions = [
       {
-        name: Reservation.MAIN_HALL_REGION_NAME,
-        maxPartySize: Reservation.MAIN_HALL_PARTY_SIZE,
+        name: RESERVATION_CONSTANTS.MAIN_HALL_REGION_NAME,
+        maxPartySize: RESERVATION_CONSTANTS.MAIN_HALL_PARTY_SIZE,
         smokingAllowed: false,
         childrenAllowed: true,
       },
       {
-        name: Reservation.BAR_REGION_NAME,
-        maxPartySize: Reservation.BAR_PARTY_SIZE,
+        name: RESERVATION_CONSTANTS.BAR_REGION_NAME,
+        maxPartySize: RESERVATION_CONSTANTS.BAR_PARTY_SIZE,
         smokingAllowed: false,
         childrenAllowed: false,
       },
       {
-        name: Reservation.RIVERSIDE_REGION_NAME,
-        maxPartySize: Reservation.RIVERSIDE_PARTY_SIZE,
+        name: RESERVATION_CONSTANTS.RIVERSIDE_REGION_NAME,
+        maxPartySize: RESERVATION_CONSTANTS.RIVERSIDE_PARTY_SIZE,
         smokingAllowed: false,
         childrenAllowed: true,
       },
       {
-        name: Reservation.RIVERSIDE_SMOKING_REGION_NAME,
-        maxPartySize: Reservation.RIVERSIDE_SMOKING_PARTY_SIZE,
+        name: RESERVATION_CONSTANTS.RIVERSIDE_SMOKING_REGION_NAME,
+        maxPartySize: RESERVATION_CONSTANTS.RIVERSIDE_SMOKING_PARTY_SIZE,
         smokingAllowed: true,
         childrenAllowed: false,
       },
     ];
 
-    // User input variables
-    this.selectedDate = new Date(2024, 6, 24);
-    this.selectedTime = this.timeSlots[0];
-    this.name = '';
-    this.email = '';
-    this.phone = '';
-    this.partySize = Reservation.MIN_PARTY_SIZE;
-    this.selectedRegion = this.regions[0];
-    this.children = 0;
-    this.maxPartySize = Reservation.MAIN_HALL_PARTY_SIZE; //Main hall init
-    this.smoking = false;
-    this.birthday = false;
-    this.isValidEmail = false;
-    this.isValidPhone = false;
-    this.birthdayName = '';
-    this.partySizeInfo = Reservation.MAIN_HALL_PARTY_SIZE_INFO;
-    this.emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    this.minDate = new Date(2024, 6, 24); // July 24th, 2024
-    this.maxDate = new Date(2024, 6, 31); // July 31st, 2024;
+    // Init reservation
+    this.initReservation();
+
+    if (reservationSummary !== undefined) {
+      // Recover the previous reservation to edit some data
+      this.recoverPreviousReservation(reservationSummary);
+    }
+
+    this.isDataLoaded = true;
   }
 
   /**
@@ -147,8 +167,8 @@ export class ReservationComponent implements OnInit {
    */
   handleInputEmail(newEmail: string) {
     this.emailRegex.test(newEmail) === true
-      ? (this.isValidEmail = true)
-      : (this.isValidEmail = false);
+      ? (this.reservation.isValidEmail = true)
+      : (this.reservation.isValidEmail = false);
   }
 
   /**
@@ -156,7 +176,7 @@ export class ReservationComponent implements OnInit {
    * @param event
    */
   onDateSelect(event: any) {
-    this.selectedTime = this.timeSlots[0];
+    this.reservation.selectedTime = this.timeSlots[0];
   }
 
   /**
@@ -164,53 +184,54 @@ export class ReservationComponent implements OnInit {
    * @returns true or false
    */
   isChildrenPartyAllowed(): boolean {
-    return this.selectedRegion.name == Reservation.BAR_REGION_NAME ||
-      this.selectedRegion.name == Reservation.RIVERSIDE_SMOKING_REGION_NAME
+    return this.reservation.selectedRegion.name ==
+      RESERVATION_CONSTANTS.BAR_REGION_NAME ||
+      this.reservation.selectedRegion.name ==
+        RESERVATION_CONSTANTS.RIVERSIDE_SMOKING_REGION_NAME
       ? false
       : true;
+  }
+
+  resetRegionRelatedFormData(): void {
+    this.reservation.partySize = 1;
+    this.reservation.birthday = false;
+    this.reservation.birthdayName = '';
+    this.reservation.smoking = false;
   }
 
   /**
    * Updates the party size limit based on the user selected region
    */
   updatePartySizeLimit(): void {
-    switch (this.selectedRegion.name) {
-      case Reservation.BAR_REGION_NAME:
-        this.partySizeInfo = Reservation.BAR_PARTY_SIZE_INFO;
-        this.maxPartySize = Reservation.BAR_PARTY_SIZE;
-        this.partySize = 1;
-        this.smoking = false;
-        this.birthday = false;
-        this.birthdayName = '';
+    switch (this.reservation.selectedRegion.name) {
+      case RESERVATION_CONSTANTS.BAR_REGION_NAME:
+        this.reservation.partySizeInfo =
+          RESERVATION_CONSTANTS.BAR_PARTY_SIZE_INFO;
+        this.reservation.maxPartySize = RESERVATION_CONSTANTS.BAR_PARTY_SIZE;
+        this.resetRegionRelatedFormData();
         break;
-      case Reservation.RIVERSIDE_SMOKING_REGION_NAME:
-        this.partySizeInfo = Reservation.RIVERSIDE_SMOKING_PARTY_SIZE_INFO;
-        this.maxPartySize = Reservation.RIVERSIDE_SMOKING_PARTY_SIZE;
-        this.partySize = 1;
-        this.birthday = false;
-        this.birthdayName = '';
+      case RESERVATION_CONSTANTS.RIVERSIDE_SMOKING_REGION_NAME:
+        this.reservation.partySizeInfo =
+          RESERVATION_CONSTANTS.RIVERSIDE_SMOKING_PARTY_SIZE_INFO;
+        this.reservation.maxPartySize =
+          RESERVATION_CONSTANTS.RIVERSIDE_SMOKING_PARTY_SIZE;
+        this.resetRegionRelatedFormData();
         break;
-      case Reservation.MAIN_HALL_REGION_NAME:
-        this.partySizeInfo = Reservation.MAIN_HALL_PARTY_SIZE_INFO;
-        this.maxPartySize = Reservation.MAIN_HALL_PARTY_SIZE;
-        this.partySize = 1;
-        this.birthday = false;
-        this.birthdayName = '';
-        this.smoking = false;
+      case RESERVATION_CONSTANTS.MAIN_HALL_REGION_NAME:
+        this.reservation.partySizeInfo =
+          RESERVATION_CONSTANTS.MAIN_HALL_PARTY_SIZE_INFO;
+        this.reservation.maxPartySize =
+          RESERVATION_CONSTANTS.MAIN_HALL_PARTY_SIZE;
+        this.resetRegionRelatedFormData();
         break;
-      case Reservation.RIVERSIDE_REGION_NAME:
-        this.partySizeInfo = Reservation.RIVERSIDE_PARTY_SIZE_INFO;
-        this.maxPartySize = Reservation.RIVERSIDE_PARTY_SIZE;
-        this.partySize = 1;
-        this.birthday = false;
-        this.birthdayName = '';
-        this.smoking = false;
+      case RESERVATION_CONSTANTS.RIVERSIDE_REGION_NAME:
+        this.reservation.partySizeInfo =
+          RESERVATION_CONSTANTS.RIVERSIDE_PARTY_SIZE_INFO;
+        this.reservation.maxPartySize =
+          RESERVATION_CONSTANTS.RIVERSIDE_PARTY_SIZE;
+        this.resetRegionRelatedFormData();
         break;
     }
-  }
-
-  checkIsFormValid(): boolean {
-    return false;
   }
 
   /**
@@ -218,18 +239,27 @@ export class ReservationComponent implements OnInit {
    */
   showReservationSummary() {
     this.reservationService.reservation = {
-      date: this.selectedDate,
-      time: { name: this.selectedTime?.name, code: this.selectedTime?.code },
-      name: this.name,
-      email: this.email,
-      phone: this.phone,
-      partySize: this.partySize,
-      region: this.selectedRegion,
-      children: this.children,
-      smoking: this.smoking,
-      birthday: this.birthday,
-      birthdayName: this.birthdayName,
+      selectedDate: this.reservation.selectedDate,
+      selectedTime: {
+        name: this.reservation.selectedTime?.name,
+        code: this.reservation.selectedTime?.code,
+      },
+      name: this.reservation.name,
+      email: this.reservation.email,
+      phone: this.reservation.phone,
+      partySize: this.reservation.partySize,
+      selectedRegion: this.reservation.selectedRegion,
+      maxPartySize: this.reservation.maxPartySize,
+      children: this.reservation.children,
+      smoking: this.reservation.smoking,
+      birthday: this.reservation.birthday,
+      birthdayName: this.reservation.birthdayName,
+      isValidEmail: this.reservation.isValidEmail,
+      isValidPhone: this.reservation.isValidPhone,
+      partySizeInfo: this.reservation.partySizeInfo,
+      minDate: this.reservation.minDate,
+      maxDate: this.reservation.maxDate,
     };
-    //TODO: implementar la ruta a reseervation summary
+    this.router.navigate(['/reservation-summary']);
   }
 }

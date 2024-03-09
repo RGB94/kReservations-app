@@ -7,12 +7,11 @@ import { SharedModule } from './shared/shared.module';
 import { registerLocaleData } from '@angular/common';
 import es from '@angular/common/locales/es';
 import { KreservationsModule } from './routes/kreservations/kreservations.module';
-import { ReservationSummaryComponent } from './routes/kreservations/reservation-summary/reservation-summary.component';
 registerLocaleData(es);
 
 @NgModule({
   bootstrap: [AppComponent],
-  declarations: [AppComponent, ReservationSummaryComponent],
+  declarations: [AppComponent],
   imports: [BrowserModule, AppRoutingModule, KreservationsModule, SharedModule],
   providers: [
     {

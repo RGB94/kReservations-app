@@ -1,15 +1,21 @@
 export interface Reservation {
-  date: Date;
-  time: TimeSlot;
+  selectedDate: Date;
+  selectedTime: TimeSlot;
   name: string;
   email: string;
   phone: string;
   partySize: number;
-  region: Region;
+  selectedRegion: Region;
+  maxPartySize: number;
   children: number;
   smoking: boolean;
   birthday: boolean;
   birthdayName: string;
+  isValidEmail: boolean;
+  isValidPhone: boolean;
+  partySizeInfo: string;
+  minDate: Date;
+  maxDate: Date;
 }
 
 export interface Region {

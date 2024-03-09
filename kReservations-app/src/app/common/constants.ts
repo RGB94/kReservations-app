@@ -1,4 +1,4 @@
-export class Reservation {
+export class RESERVATION_CONSTANTS {
   public static MAIN_HALL_PARTY_SIZE: number = 12;
   public static BAR_PARTY_SIZE: number = 4;
   public static RIVERSIDE_PARTY_SIZE: number = 8;

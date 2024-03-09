@@ -1,0 +1,27 @@
+@import "../../../../styles.scss";
+.reservation-container {
+  padding: 15px 52px;
+  .reservation-summary {
+    padding: 15px 32px;
+    background-color: $color-white;
+    .label-data {
+      font-weight: bold;
+    }
+    &-content {
+      display: flex;
+      flex-direction: column;
+      .cursor {
+        cursor: pointer;
+      }
+    }
+    &-footer {
+      padding-top: 20px;
+      .submit-button {
+        color: $color-white;
+        // padding-right: 5px;
+        background: linear-gradient(0deg, #666 0, #000);
+        border-color: #000;
+      }
+    }
+  }
+}
