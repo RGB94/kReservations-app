@@ -13,12 +13,10 @@ export class ApiService {
   constructor(private http: HttpClient) {}
 
   getReservations(): Observable<Reservation[]> {
-    const headers = new HttpHeaders().set('Content-Type', 'application/json');
-    return this.http.get<Reservation[]>(baseUrl, { headers });
+    return this.http.get<Reservation[]>(baseUrl);
   }
 
   createReservation(reservation: Reservation): Observable<Reservation> {
-    const headers = new HttpHeaders().set('Content-Type', 'application/json');
-    return this.http.post<Reservation>(baseUrl, reservation, { headers });
+    return this.http.post<Reservation>(baseUrl, reservation);
   }
 }
