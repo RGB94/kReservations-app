@@ -1,4 +1,4 @@
-export interface reservationNotConfirmed {
+export interface ReservationNotConfirmed {
   selectedDate: Date;
   selectedTime: TimeSlot;
   name: string;
@@ -6,7 +6,7 @@ export interface reservationNotConfirmed {
   phone: string;
   partySize: number;
   selectedRegion: Region;
-  maxPartySize: number;
+  tableCapacity: number;
   children: number;
   smoking: boolean;
   birthday: boolean;
@@ -35,7 +35,7 @@ export interface Reservation {
 
 export interface Region {
   name: string;
-  maxPartySize: number;
+  tableCapacity: number;
   smokingAllowed: boolean;
   childrenAllowed: boolean;
 }

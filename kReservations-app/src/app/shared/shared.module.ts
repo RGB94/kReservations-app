@@ -21,7 +21,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     CheckboxModule,
     DropdownModule,
     CalendarModule,
-    BrowserAnimationsModule,
-  ],
+    BrowserAnimationsModule
+  ]
 })
 export class SharedModule {}

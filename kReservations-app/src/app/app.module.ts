@@ -14,23 +14,17 @@ registerLocaleData(es);
 @NgModule({
   bootstrap: [AppComponent],
   declarations: [AppComponent],
-  imports: [
-    BrowserModule,
-    HttpClientModule,
-    AppRoutingModule,
-    KreservationsModule,
-    SharedModule,
-  ],
+  imports: [BrowserModule, HttpClientModule, AppRoutingModule, KreservationsModule, SharedModule],
   providers: [
     {
       provide: LOCALE_ID,
-      useValue: 'es-ES',
+      useValue: 'es-ES'
     },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AddHeaderInterceptor,
-      multi: true,
-    },
-  ],
+      multi: true
+    }
+  ]
 })
 export class AppModule {}

@@ -1,11 +1,11 @@
-@import "../../../../styles.scss";
+@import '../../../../styles.scss';
 .reservation {
   ::ng-deep {
     .p-inputtext {
       color: $text-color;
     }
   }
-  background-image: url("../../../../assets/images/kafe-wallpaper.png");
+  background-image: url('../../../../assets/images/kafe-wallpaper.png');
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
@@ -28,6 +28,8 @@
     }
 
     .form-content {
+      display: flex;
+      flex-direction: column;
       .checkbox-container {
         display: flex;
         align-items: center;

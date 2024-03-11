@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Reservation, reservationNotConfirmed } from '../interfaces/reservation.interface';
+import { Reservation, ReservationNotConfirmed } from '../interfaces/reservation.interface';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class ReservationKafe {
-  reservationNotConfirmed: reservationNotConfirmed | undefined;
+  reservationNotConfirmed: ReservationNotConfirmed | undefined;
   reservationConfirmed: Reservation | undefined;
 
   constructor() {}

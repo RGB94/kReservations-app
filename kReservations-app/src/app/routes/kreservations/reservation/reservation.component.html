@@ -2,7 +2,7 @@
   <div class="reservation-form p-fluid">
     <form #reservationForm="ngForm" (ngSubmit)="showReservationSummary()">
       <section class="form-header">
-        <h2>Reservation</h2>
+        <h2>Table Reservation</h2>
         <div>Please fill the form below accurately.. welcome!</div>
       </section>
       <section class="form-content">
@@ -39,9 +39,7 @@
               required
               (ngModelChange)="handleInputEmail($event)"
             />
-            <span class="not-valid-field" *ngIf="!reservation.isValidEmail"
-              >Enter a valid email address.</span
-            >
+            <span class="not-valid-field" *ngIf="!reservation.isValidEmail">Enter a valid email address.</span>
           </div>
         </div>
         <div class="row form-line">
@@ -56,9 +54,7 @@
               [required]="true"
               name="phone"
             ></p-inputMask>
-            <span class="not-valid-field" *ngIf="reservation.phone === ''"
-              >Enter a valid phone.</span
-            >
+            <span class="not-valid-field" *ngIf="reservation.phone === ''">Enter a valid phone.</span>
           </div>
         </div>
         <div class="row form-line">
@@ -78,10 +74,7 @@
               <p class="info-message">Parties with children not permitted.</p>
             </div>
 
-            <div
-              *ngIf="reservation.selectedRegion.smokingAllowed"
-              class="checkbox-container"
-            >
+            <div *ngIf="reservation.selectedRegion.smokingAllowed" class="checkbox-container">
               <label class="form-label">Smoking during dinner</label>
               <p-checkbox
                 class="form-field-checkbox"
@@ -100,7 +93,7 @@
             <p-inputNumber
               [(ngModel)]="reservation.partySize"
               [min]="1"
-              [max]="reservation.maxPartySize"
+              [max]="reservation.tableCapacity"
               [required]="true"
               name="partySize"
             ></p-inputNumber>
@@ -109,53 +102,47 @@
             </div>
           </div>
         </div>
-        <ng-container *ngIf="isChildrenPartyAllowed()">
-          <div class="row form-line">
-            <div class="col-md-2">
-              <label class="form-label">* Children in party</label>
-            </div>
-            <div class="col-md-4">
-              <p-inputNumber
-                [(ngModel)]="reservation.children"
-                inputId="minmax"
-                inputId="minmax"
-                mode="decimal"
-                [min]="0"
-                [max]="reservation.partySize"
-                name="children"
-                [required]="true"
-              ></p-inputNumber>
-            </div>
+        <div *ngIf="isChildrenPartyAllowed()" class="row form-line">
+          <div class="col-md-2">
+            <label class="form-label">* Children in party</label>
           </div>
+          <div class="col-md-4">
+            <p-inputNumber
+              [(ngModel)]="reservation.children"
+              inputId="minmax"
+              inputId="minmax"
+              mode="decimal"
+              [min]="0"
+              [max]="reservation.partySize - 1"
+              name="children"
+              [required]="true"
+            ></p-inputNumber>
+            <span class="not-valid-field" *ngIf="reservation.children >= reservation.partySize"
+              >Introduce a valid children party.</span
+            >
+          </div>
+        </div>
 
-          <div class="row form-line">
-            <div class="col-md-4 checkbox-container">
-              <label class="form-label">Celebrating a birthday?</label>
-              <p-checkbox
-                class="form-field-checkbox"
-                [(ngModel)]="reservation.birthday"
-                [binary]="true"
-                name="birthday"
-              ></p-checkbox>
-            </div>
+        <div class="row form-line">
+          <div class="col-md-4 checkbox-container">
+            <label class="form-label">Celebrating a birthday?</label>
+            <p-checkbox
+              class="form-field-checkbox"
+              [(ngModel)]="reservation.birthday"
+              [binary]="true"
+              name="birthday"
+            ></p-checkbox>
           </div>
+        </div>
 
-          <div class="row form-line">
-            <div class="col-md-5">
-              <div *ngIf="reservation.birthday">
-                <label class="form-label"
-                  >Birthday person's name (optional)</label
-                >
-                <input
-                  type="text"
-                  name="birthdayName"
-                  pInputText
-                  [(ngModel)]="reservation.birthdayName"
-                />
-              </div>
+        <div class="row form-line">
+          <div class="col-md-5">
+            <div *ngIf="reservation.birthday">
+              <label class="form-label">Birthday person's name (optional)</label>
+              <input type="text" name="birthdayName" pInputText [(ngModel)]="reservation.birthdayName" />
             </div>
           </div>
-        </ng-container>
+        </div>
 
         <div class="row form-label-calendar">
           <div class="col-12">
@@ -184,11 +171,7 @@
               placeholder="Select a time slot"
               [required]="true"
             ></p-dropdown>
-            <span
-              class="not-valid-field"
-              *ngIf="reservation.selectedTime?.code === '0'"
-              >* Select a time slot.</span
-            >
+            <span class="not-valid-field" *ngIf="reservation.selectedTime?.code === '0'">* Select a time slot.</span>
           </div>
         </div>
       </section>
@@ -199,7 +182,8 @@
             <button
               class="submit-button"
               type="submit"
-              [disabled]="reservationForm.invalid"
+              [disabled]="reservationForm.invalid || (reservation.children >= reservation.partySize)"
+              
             >
               Submit Reservation
             </button>

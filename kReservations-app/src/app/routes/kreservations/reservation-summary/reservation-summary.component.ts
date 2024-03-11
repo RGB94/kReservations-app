@@ -1,20 +1,18 @@
-import {
-  Reservation,
-  reservationNotConfirmed,
-} from 'src/app/core/interfaces/reservation.interface';
+import { Reservation, ReservationNotConfirmed } from 'src/app/core/interfaces/reservation.interface';
 import { ReservationKafe } from './../../../core/services/reservation-kafe.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ApiService } from 'src/app/core/services/api.service';
-import { map, filter } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
+import { RESERVATION_CONSTANTS } from 'src/app/common/constants';
 
 @Component({
   selector: 'reservation-summary',
   templateUrl: './reservation-summary.component.html',
-  styleUrls: ['./reservation-summary.component.scss'],
+  styleUrls: ['./reservation-summary.component.scss']
 })
 export class ReservationSummaryComponent implements OnInit {
-  reservationData: reservationNotConfirmed | undefined;
+  reservationData: ReservationNotConfirmed | undefined;
   formattedDate: string | undefined = '';
 
   constructor(
@@ -24,7 +22,7 @@ export class ReservationSummaryComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.reservationData = this.reservationKafeService.reservationNotConfirmed;
+    this.reservationData = this.reservationKafeService?.reservationNotConfirmed;
     this.formattedDate = this.formatDate(this.reservationData?.selectedDate);
   }
 
@@ -40,6 +38,21 @@ export class ReservationSummaryComponent implements OnInit {
     this.router.navigate(['/reservation']);
   }
 
+  canCreateReservation(tablesReserved: number, regionName: string | undefined): boolean {
+    switch (regionName) {
+      case RESERVATION_CONSTANTS.BAR_REGION_NAME:
+        return tablesReserved < RESERVATION_CONSTANTS.AVAILABLE_TABLES_BAR;
+      case RESERVATION_CONSTANTS.MAIN_HALL_REGION_NAME:
+        return tablesReserved < RESERVATION_CONSTANTS.AVAILABLE_TABLES_MAIN_HALL;
+      case RESERVATION_CONSTANTS.RIVERSIDE_REGION_NAME:
+        return tablesReserved < RESERVATION_CONSTANTS.AVAILABLE_TABLES_RIVERSIDE;
+      case RESERVATION_CONSTANTS.RIVERSIDE_SMOKING_REGION_NAME:
+        return tablesReserved < RESERVATION_CONSTANTS.AVAILABLE_TABLES_RIVERSIDE_SMOKING;
+      default:
+        return false;
+    }
+  }
+
   confirmReservation(): void {
     this.apiService
       .getReservations()
@@ -47,15 +60,17 @@ export class ReservationSummaryComponent implements OnInit {
         map((reservations: Reservation[]) =>
           reservations.filter(
             (reservation: Reservation) =>
-              reservation.day ===
-                String(this.reservationData?.selectedDate?.getDate()) &&
-              reservation.time === this.reservationData?.selectedTime?.code
+              reservation.day === String(this.reservationData?.selectedDate?.getDate()) &&
+              reservation.region?.name === this.reservationData?.selectedRegion?.name
           )
         )
       )
       .subscribe({
         next: (filteredReservations: Reservation[]) => {
-          if (!filteredReservations.length) {
+          if (
+            !filteredReservations.length ||
+            this.canCreateReservation(filteredReservations.length, this.reservationData?.selectedRegion?.name)
+          ) {
             this.createReservation();
           } else {
             // Redirect to nok reservation, say that the reservation time is already
@@ -65,7 +80,7 @@ export class ReservationSummaryComponent implements OnInit {
         },
         error: (error: any) => {
           // console.error(error);
-        },
+        }
       });
   }
 
@@ -82,7 +97,7 @@ export class ReservationSummaryComponent implements OnInit {
       smoking: this.reservationData?.smoking,
       birthday: this.reservationData?.birthday,
       birthdayName: this.reservationData?.birthdayName,
-      id: Math.random(), // creates random ID
+      id: Math.random() // creates random ID
     };
     this.apiService.createReservation(reservation).subscribe({
       next: (resp: any) => {
@@ -92,7 +107,7 @@ export class ReservationSummaryComponent implements OnInit {
       },
       error: (error: any) => {
         // console.error(error);
-      },
+      }
     });
   }
 }
