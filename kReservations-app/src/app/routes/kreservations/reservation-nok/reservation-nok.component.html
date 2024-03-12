@@ -1,1 +1,28 @@
-<p>reservation-nok works!</p>
+<div class="reservation-nok">
+  <section>
+    <div class="reservation-nok-header">
+      <h2>Reservation not confirmed!</h2>
+    </div>
+  </section>
+  <section>
+    <p>
+      The table reservation in <strong>{{ activeTableReservation?.name }} </strong> name on day
+      <strong>{{ day }}</strong> at <strong>{{ activeTableReservation?.selectedTime?.name }} p.m.</strong> could not be
+      created because all of the available tables for region
+      <strong>{{ activeTableReservation?.selectedRegion?.name }}</strong> are reserved for today.
+    </p>
+    <p *ngIf="activeTableReservation?.smoking">
+      We are sorry that we do not have tables where you can smoke in other regions.
+    </p>
+    <p>Please reserve a table with us for that region another day.</p>
+  </section>
+  <section>
+    <div class="reservation-nok-button">
+      <div class="row">
+        <div class="col-md-3">
+          <button class="submit-button" (click)="editReservation()">Edit Reservation</button>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
