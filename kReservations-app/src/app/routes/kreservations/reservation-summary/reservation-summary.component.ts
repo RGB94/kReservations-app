@@ -1,4 +1,4 @@
-import { Reservation, ReservationNotConfirmed } from 'src/app/core/interfaces/reservation.interface';
+import { TableReservation, ActiveTableReservation } from 'src/app/core/interfaces/reservation.interface';
 import { ReservationKafe } from './../../../core/services/reservation-kafe.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
@@ -12,8 +12,8 @@ import { RESERVATION_CONSTANTS } from 'src/app/common/constants';
   styleUrls: ['./reservation-summary.component.scss']
 })
 export class ReservationSummaryComponent implements OnInit {
-  reservationData: ReservationNotConfirmed | undefined;
-  formattedDate: string | undefined = '';
+  reservationData: ActiveTableReservation | undefined;
+  formattedDate: string = '';
 
   constructor(
     private reservationKafeService: ReservationKafe,
@@ -22,12 +22,12 @@ export class ReservationSummaryComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.reservationData = this.reservationKafeService?.reservationNotConfirmed;
+    this.reservationData = this.reservationKafeService?.activeTableReservation;
     this.formattedDate = this.formatDate(this.reservationData?.selectedDate);
   }
 
   /**
-   * Format date 
+   * Format date
    * @param date reservation date
    * @returns formatted date
    */
@@ -74,29 +74,26 @@ export class ReservationSummaryComponent implements OnInit {
     this.apiService
       .getReservations()
       .pipe(
-        map((reservations: Reservation[]) =>
+        map((reservations: TableReservation[]) =>
           reservations.filter(
-            (reservation: Reservation) =>
+            (reservation: TableReservation) =>
               reservation.day === String(this.reservationData?.selectedDate?.getDate()) &&
               reservation.region?.name === this.reservationData?.selectedRegion?.name
           )
         )
       )
       .subscribe({
-        next: (filteredReservations: Reservation[]) => {
+        next: (filteredReservations: TableReservation[]) => {
           if (
             !filteredReservations.length ||
             this.canCreateReservation(filteredReservations.length, this.reservationData?.selectedRegion?.name)
           ) {
             this.createReservation();
           } else {
-            // Redirect to nok reservation, say that the reservation time is already
-            // taken and propose edit the reservation via button and redirect to /reservation
             this.router.navigate(['/reservation-cancelled']);
           }
         },
-        error: (error: any) => {
-        }
+        error: (error: any) => {}
       });
   }
 
@@ -104,7 +101,7 @@ export class ReservationSummaryComponent implements OnInit {
    * Creates the new reservation
    */
   createReservation(): void {
-    let reservation: Reservation = {
+    let reservation: TableReservation = {
       day: String(this.reservationData?.selectedDate?.getDate()),
       time: this.reservationData?.selectedTime?.code,
       name: this.reservationData?.name,
@@ -124,8 +121,7 @@ export class ReservationSummaryComponent implements OnInit {
         this.reservationKafeService.reservationConfirmed = reservation;
         this.router.navigate(['/reservation-confirmed']);
       },
-      error: (error: any) => {
-      }
+      error: (error: any) => {}
     });
   }
 }

@@ -14,10 +14,11 @@
             <input
               type="text"
               pInputText
-              placeholder=" Kafe restaurant"
+              placeholder="Kafe restaurant"
               required
               [(ngModel)]="reservation.name"
               name="name"
+              (keypress)="onKeyPress($event)"
             />
             <div *ngIf="reservation.name.trim() === ''">
               <span class="not-valid-field">Enter a valid name</span>
@@ -139,7 +140,13 @@
           <div class="col-md-5">
             <div *ngIf="reservation.birthday">
               <label class="form-label">Birthday person's name (optional)</label>
-              <input type="text" name="birthdayName" pInputText [(ngModel)]="reservation.birthdayName" />
+              <input
+                type="text"
+                name="birthdayName"
+                pInputText
+                [(ngModel)]="reservation.birthdayName"
+                (keypress)="onKeyPress($event)"
+              />
             </div>
           </div>
         </div>
@@ -179,14 +186,7 @@
       <div class="row form-line">
         <div class="col-md-12">
           <section class="form-submit-reservation">
-            <button
-              class="submit-button"
-              type="submit"
-              [disabled]="reservationForm.invalid || (reservation.children >= reservation.partySize)"
-              
-            >
-              Submit Reservation
-            </button>
+            <button class="submit-button" type="submit" [disabled]="isSubmitDisabled()">Submit Reservation</button>
           </section>
         </div>
       </div>

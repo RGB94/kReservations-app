@@ -1,4 +1,4 @@
-export interface ReservationNotConfirmed {
+export interface ActiveTableReservation {
   selectedDate: Date;
   selectedTime: TimeSlot;
   name: string;
@@ -12,13 +12,12 @@ export interface ReservationNotConfirmed {
   birthday: boolean;
   birthdayName: string;
   isValidEmail: boolean;
-  isValidPhone: boolean;
   partySizeInfo: string;
   minDate: Date;
   maxDate: Date;
 }
 
-export interface Reservation {
+export interface TableReservation {
   id: number | undefined;
   day: string | undefined;
   time: string | undefined;

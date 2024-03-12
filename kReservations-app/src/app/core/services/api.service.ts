@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Region, Reservation, TimeSlot } from '../interfaces/reservation.interface';
+import { Region, TableReservation, TimeSlot } from '../interfaces/reservation.interface';
 import { API_PATH } from 'src/app/common/constants';
 
 const baseUrl = 'http://localhost:3000';
@@ -12,8 +12,8 @@ const baseUrl = 'http://localhost:3000';
 export class ApiService {
   constructor(private http: HttpClient) {}
 
-  getReservations(): Observable<Reservation[]> {
-    return this.http.get<Reservation[]>(baseUrl + API_PATH.RESERVATIONS_PATH);
+  getReservations(): Observable<TableReservation[]> {
+    return this.http.get<TableReservation[]>(baseUrl + API_PATH.RESERVATIONS_PATH);
   }
 
   getReservationTimeSlots(): Observable<TimeSlot[]> {
@@ -24,7 +24,7 @@ export class ApiService {
     return this.http.get<Region[]>(baseUrl + API_PATH.REGIONS_PATH);
   }
 
-  createReservation(reservation: Reservation): Observable<Reservation> {
-    return this.http.post<Reservation>(baseUrl + API_PATH.RESERVATIONS_PATH, reservation);
+  createReservation(reservation: TableReservation): Observable<TableReservation> {
+    return this.http.post<TableReservation>(baseUrl + API_PATH.RESERVATIONS_PATH, reservation);
   }
 }

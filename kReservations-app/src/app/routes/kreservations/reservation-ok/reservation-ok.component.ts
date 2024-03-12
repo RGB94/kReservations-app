@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Reservation } from 'src/app/core/interfaces/reservation.interface';
+import { TableReservation } from 'src/app/core/interfaces/reservation.interface';
 import { ReservationKafe } from 'src/app/core/services/reservation-kafe.service';
 
 @Component({
@@ -9,7 +9,8 @@ import { ReservationKafe } from 'src/app/core/services/reservation-kafe.service'
   styleUrls: ['./reservation-ok.component.scss']
 })
 export class ReservationOkComponent implements OnInit {
-  reservation: Reservation | undefined;
+  reservation: TableReservation | undefined;
+  
   constructor(private reservationKafeService: ReservationKafe, private router: Router) {}
 
   ngOnInit(): void {
@@ -21,7 +22,7 @@ export class ReservationOkComponent implements OnInit {
    */
   startNewReservation(): void {
     this.reservationKafeService.reservationConfirmed = undefined;
-    this.reservationKafeService.reservationNotConfirmed = undefined;
+    this.reservationKafeService.activeTableReservation = undefined;
     this.router.navigate(['/reservation']);
   }
 }

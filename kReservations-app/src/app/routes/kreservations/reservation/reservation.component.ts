@@ -3,7 +3,7 @@ import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { forkJoin } from 'rxjs';
 import { RESERVATION_CONSTANTS } from 'src/app/common/constants';
-import { Region, ReservationNotConfirmed, TimeSlot } from 'src/app/core/interfaces/reservation.interface';
+import { Region, ActiveTableReservation, TimeSlot } from 'src/app/core/interfaces/reservation.interface';
 import { ApiService } from 'src/app/core/services/api.service';
 import { ReservationKafe } from 'src/app/core/services/reservation-kafe.service';
 
@@ -21,20 +21,13 @@ export class ReservationComponent implements OnInit {
   // Available regions and their details
   regions!: Region[];
 
-  reservation!: ReservationNotConfirmed;
-  emailRegex!: RegExp;
+  reservation!: ActiveTableReservation;
   isDataLoaded: boolean = false;
 
-  constructor(
-    private reservationService: ReservationKafe,
-    private router: Router,
-    private apiService: ApiService
-  ) {
-    this.emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  }
+  constructor(private reservationService: ReservationKafe, private router: Router, private apiService: ApiService) {}
 
   ngOnInit(): void {
-    this.initFormData(this.reservationService?.reservationNotConfirmed);
+    this.initFormData(this.reservationService?.activeTableReservation);
   }
 
   /**
@@ -55,7 +48,6 @@ export class ReservationComponent implements OnInit {
       birthday: false,
       birthdayName: '',
       isValidEmail: false,
-      isValidPhone: false,
       partySizeInfo: '',
       minDate: new Date(2024, 6, 24), // July 24th, 2024
       maxDate: new Date(2024, 6, 31) // July 31st, 2024;
@@ -64,42 +56,27 @@ export class ReservationComponent implements OnInit {
 
   /**
    * Sets active reservation to edit again
-   * @param reservationSummary active reservation
+   * @param activeTableReservation active reservation
    */
-  setPreviousReservation(reservationSummary: ReservationNotConfirmed): void {
-    this.reservation.selectedDate = reservationSummary?.selectedDate;
-    this.reservation.selectedTime = reservationSummary?.selectedTime;
-    this.reservation.name = reservationSummary?.name;
-    this.reservation.email = reservationSummary?.email;
-    this.reservation.phone = reservationSummary?.phone;
-    this.reservation.partySize = reservationSummary?.partySize;
-    this.reservation.selectedRegion = reservationSummary?.selectedRegion;
-    this.reservation.children = reservationSummary?.children;
-    this.reservation.tableCapacity = reservationSummary?.tableCapacity;
-    this.reservation.smoking = reservationSummary?.smoking;
-    this.reservation.birthday = reservationSummary?.birthday;
-    this.reservation.isValidEmail = reservationSummary?.isValidEmail;
-    this.reservation.isValidPhone = reservationSummary?.isValidPhone;
-    this.reservation.birthdayName = reservationSummary?.birthdayName;
-    this.reservation.partySizeInfo = reservationSummary?.partySizeInfo;
-    this.reservation.minDate = reservationSummary?.minDate;
-    this.reservation.maxDate = reservationSummary?.maxDate;
+  setPreviousReservation(activeTableReservation: ActiveTableReservation): void {
+    this.reservation = { ...activeTableReservation };
   }
 
   /**
    * Inits all the form data
-   * @param reservationSummary active reservation
+   * @param activeTableReservation active reservation
    */
-  initFormData(reservationSummary: ReservationNotConfirmed | undefined): void {
+  initFormData(activeTableReservation: ActiveTableReservation | undefined): void {
     forkJoin([this.apiService.getReservationTimeSlots(), this.apiService.getRestaurantRegions()]).subscribe({
       next: (response: any) => {
         this.timeSlots = response[0];
         this.regions = response[1];
+
         // Init reservation
         this.initReservation();
 
-        if (reservationSummary !== undefined) {
-          this.setPreviousReservation(reservationSummary);
+        if (activeTableReservation !== undefined) {
+          this.setPreviousReservation(activeTableReservation);
         }
       },
       complete: () => {
@@ -116,9 +93,8 @@ export class ReservationComponent implements OnInit {
    * @param newEmail user email
    */
   handleInputEmail(newEmail: string) {
-    this.emailRegex?.test(newEmail) === true
-      ? (this.reservation.isValidEmail = true)
-      : (this.reservation.isValidEmail = false);
+    const regex = new RegExp(/^[^\s@]+@[^\s@]+\.[^\s@]+$/); // Regular expression for email
+    regex.test(newEmail) === true ? (this.reservation.isValidEmail = true) : (this.reservation.isValidEmail = false);
   }
 
   /**
@@ -127,6 +103,19 @@ export class ReservationComponent implements OnInit {
    */
   onDateSelect(event: any) {
     this.reservation.selectedTime = this.timeSlots[0];
+  }
+
+  /**
+   * Prevent any character that is not a letter be entered
+   * @param event KeyboardEvent
+   */
+  onKeyPress(event: KeyboardEvent) {
+    const char = event.key; // Get the character from the event
+    const regex = new RegExp(/^[a-zA-Z]+$/); // Regular expression for letters only
+
+    if (!regex.test(char)) {
+      event.preventDefault(); // Prevent invalid character from being entered
+    }
   }
 
   /**
@@ -180,31 +169,22 @@ export class ReservationComponent implements OnInit {
   }
 
   /**
+   * Checks if the submit button should be enabled or disabled
+   * @returns true or false
+   */
+  isSubmitDisabled(): boolean {
+    return (
+      this.reservationForm?.invalid ||
+      this.reservation?.children >= this.reservation?.partySize ||
+      !this.reservation.isValidEmail
+    );
+  }
+
+  /**
    * Jumps to the reservation summary component
    */
   showReservationSummary() {
-    this.reservationService.reservationNotConfirmed = {
-      selectedDate: this.reservation?.selectedDate,
-      selectedTime: {
-        name: this.reservation.selectedTime?.name,
-        code: this.reservation.selectedTime?.code
-      },
-      name: this.reservation?.name,
-      email: this.reservation?.email,
-      phone: this.reservation?.phone,
-      partySize: this.reservation?.partySize,
-      selectedRegion: this.reservation?.selectedRegion,
-      tableCapacity: this.reservation?.tableCapacity,
-      children: this.reservation?.children,
-      smoking: this.reservation?.smoking,
-      birthday: this.reservation?.birthday,
-      birthdayName: this.reservation?.birthdayName,
-      isValidEmail: this.reservation?.isValidEmail,
-      isValidPhone: this.reservation?.isValidPhone,
-      partySizeInfo: this.reservation?.partySizeInfo,
-      minDate: this.reservation?.minDate,
-      maxDate: this.reservation?.maxDate
-    };
+    this.reservationService.activeTableReservation = { ...this.reservation };
     this.router.navigate(['/reservation-summary']);
   }
 }
