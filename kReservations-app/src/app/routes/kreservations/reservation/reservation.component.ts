@@ -17,20 +17,18 @@ export class ReservationComponent implements OnInit {
 
   // Available time slots
   timeSlots!: TimeSlot[];
+
   // Available regions and their details
   regions!: Region[];
 
-  // User input variables
   reservation!: ReservationNotConfirmed;
   emailRegex!: RegExp;
   isDataLoaded: boolean = false;
-  isChildrenPartyEnabled: boolean = false;
 
   constructor(
     private reservationService: ReservationKafe,
     private router: Router,
-    private apiService: ApiService,
-    private changeDetector: ChangeDetectorRef
+    private apiService: ApiService
   ) {
     this.emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   }
@@ -39,6 +37,9 @@ export class ReservationComponent implements OnInit {
     this.initFormData(this.reservationService?.reservationNotConfirmed);
   }
 
+  /**
+   * Inits the reservation
+   */
   initReservation(): void {
     this.reservation = {
       selectedDate: new Date(2024, 6, 24),
@@ -48,7 +49,7 @@ export class ReservationComponent implements OnInit {
       phone: '',
       partySize: RESERVATION_CONSTANTS.MIN_PARTY_SIZE,
       selectedRegion: this.regions[0],
-      tableCapacity: RESERVATION_CONSTANTS.MAIN_HALL_TABLE_PARTY_SIZE, //Main hall init
+      tableCapacity: RESERVATION_CONSTANTS.MAIN_HALL_TABLE_PARTY_SIZE,
       children: 0,
       smoking: false,
       birthday: false,
@@ -61,7 +62,11 @@ export class ReservationComponent implements OnInit {
     };
   }
 
-  recoverPreviousReservation(reservationSummary: ReservationNotConfirmed): void {
+  /**
+   * Sets active reservation to edit again
+   * @param reservationSummary active reservation
+   */
+  setPreviousReservation(reservationSummary: ReservationNotConfirmed): void {
     this.reservation.selectedDate = reservationSummary?.selectedDate;
     this.reservation.selectedTime = reservationSummary?.selectedTime;
     this.reservation.name = reservationSummary?.name;
@@ -81,6 +86,10 @@ export class ReservationComponent implements OnInit {
     this.reservation.maxDate = reservationSummary?.maxDate;
   }
 
+  /**
+   * Inits all the form data
+   * @param reservationSummary active reservation
+   */
   initFormData(reservationSummary: ReservationNotConfirmed | undefined): void {
     forkJoin([this.apiService.getReservationTimeSlots(), this.apiService.getRestaurantRegions()]).subscribe({
       next: (response: any) => {
@@ -90,8 +99,7 @@ export class ReservationComponent implements OnInit {
         this.initReservation();
 
         if (reservationSummary !== undefined) {
-          // Recover the previous reservation to edit
-          this.recoverPreviousReservation(reservationSummary);
+          this.setPreviousReservation(reservationSummary);
         }
       },
       complete: () => {
@@ -132,19 +140,9 @@ export class ReservationComponent implements OnInit {
       : true;
   }
 
-  // recalculateChildrenPartySize(partySize: number, isChildren: boolean): void {
-  //   if (isChildren) {
-  //     if (partySize > 0 && (partySize === this.reservation.partySize || partySize >= this.reservation.partySize)) {
-  //       this.reservation.children = this.reservation.partySize - 1;
-  //     }
-  //   } else {
-  //     if (this.reservation.children > 0 && this.reservation.children >= partySize) {
-  //       this.reservation.children = partySize - 1;
-  //     }
-  //   }
-  //   this.changeDetector.detectChanges();
-  // }
-
+  /**
+   * Reset region related form data
+   */
   resetRegionRelatedFormData(): void {
     this.reservation.partySize = 1;
     this.reservation.children = 0;

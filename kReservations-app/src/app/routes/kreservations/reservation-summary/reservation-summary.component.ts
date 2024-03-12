@@ -26,6 +26,11 @@ export class ReservationSummaryComponent implements OnInit {
     this.formattedDate = this.formatDate(this.reservationData?.selectedDate);
   }
 
+  /**
+   * Format date 
+   * @param date reservation date
+   * @returns formatted date
+   */
   formatDate(date: Date | undefined) {
     const dayOfWeek = date?.toLocaleDateString('en-US', { weekday: 'long' });
     const day = date?.getDate().toString().padStart(2, '0');
@@ -34,10 +39,19 @@ export class ReservationSummaryComponent implements OnInit {
     return `${dayOfWeek}, ${day} ${year}`;
   }
 
+  /**
+   * Back to reservations to edit the reservation
+   */
   editReservation(): void {
     this.router.navigate(['/reservation']);
   }
 
+  /**
+   * Checks whether the user can make the table reservation or not
+   * @param tablesReserved tables reserved for the region
+   * @param regionName region name
+   * @returns true or false
+   */
   canCreateReservation(tablesReserved: number, regionName: string | undefined): boolean {
     switch (regionName) {
       case RESERVATION_CONSTANTS.BAR_REGION_NAME:
@@ -53,6 +67,9 @@ export class ReservationSummaryComponent implements OnInit {
     }
   }
 
+  /**
+   * Starts the process of confirming the reservation
+   */
   confirmReservation(): void {
     this.apiService
       .getReservations()
@@ -79,11 +96,13 @@ export class ReservationSummaryComponent implements OnInit {
           }
         },
         error: (error: any) => {
-          // console.error(error);
         }
       });
   }
 
+  /**
+   * Creates the new reservation
+   */
   createReservation(): void {
     let reservation: Reservation = {
       day: String(this.reservationData?.selectedDate?.getDate()),
@@ -97,7 +116,7 @@ export class ReservationSummaryComponent implements OnInit {
       smoking: this.reservationData?.smoking,
       birthday: this.reservationData?.birthday,
       birthdayName: this.reservationData?.birthdayName,
-      id: Math.random() // creates random ID
+      id: Math.floor(Math.random() * (9999 - 1000 + 1)) + 1000 // creates random ID to create reservation
     };
     this.apiService.createReservation(reservation).subscribe({
       next: (resp: any) => {
@@ -106,7 +125,6 @@ export class ReservationSummaryComponent implements OnInit {
         this.router.navigate(['/reservation-confirmed']);
       },
       error: (error: any) => {
-        // console.error(error);
       }
     });
   }

@@ -3,8 +3,8 @@
     {
       "day": "24",
       "time": "18:00",
-      "name": "RUBEN",
-      "email": "rubengonzalez663@gmail.com",
+      "name": "TEST",
+      "email": "test@gmail.com",
       "phone": "+23 232323232",
       "partySize": 1,
       "region": {
@@ -21,117 +21,22 @@
     },
     {
       "day": "24",
-      "time": "18:30",
-      "name": "RUBEN",
-      "email": "rubengonzalez663@gmail.com",
-      "phone": "+23 232323232",
-      "partySize": 4,
-      "region": {
-        "name": "Bar",
-        "maxPartySize": 4,
-        "smokingAllowed": false,
-        "childrenAllowed": false
-      },
-      "children": 0,
-      "smoking": false,
-      "birthday": false,
-      "birthdayName": "",
-      "id": 0.9342307292328909
-    },
-    {
-      "day": "24",
       "time": "18:00",
-      "name": "RUBEN",
-      "email": "rubengonzalez663@gmail.com",
-      "phone": "+23 232323232",
-      "partySize": 6,
-      "region": {
-        "name": "Riverside (smoking allowed)",
-        "maxPartySize": 6,
-        "smokingAllowed": true,
-        "childrenAllowed": false
-      },
-      "children": 0,
-      "smoking": true,
-      "birthday": false,
-      "birthdayName": "",
-      "id": 0.5516806472559967
-    },
-    {
-      "day": "24",
-      "time": "19:00",
-      "name": "RUBEN",
-      "email": "rubengonzalez663@gmail.com",
-      "phone": "+23 232323232",
-      "partySize": 3,
-      "region": {
-        "name": "Riverside (smoking allowed)",
-        "maxPartySize": 6,
-        "smokingAllowed": true,
-        "childrenAllowed": false
-      },
-      "children": 0,
-      "smoking": true,
-      "birthday": false,
-      "birthdayName": "",
-      "id": 0.8546277021617716
-    },
-    {
-      "day": "24",
-      "time": "21:00",
-      "name": "RUBEN",
-      "email": "rubengonzalez663@gmail.com",
-      "phone": "+23 232323232",
-      "partySize": 6,
-      "region": {
-        "name": "Riverside (smoking allowed)",
-        "maxPartySize": 6,
-        "smokingAllowed": true,
-        "childrenAllowed": false
-      },
-      "children": 0,
-      "smoking": true,
-      "birthday": false,
-      "birthdayName": "",
-      "id": 0.04874679583682484
-    },
-    {
-      "day": "25",
-      "time": "18:30",
-      "name": "RUBEN",
-      "email": "rubengonzalez663@gmail.com",
+      "name": "test",
+      "email": "test@gmail.com",
       "phone": "+23 232323232",
       "partySize": 1,
       "region": {
-        "name": "Riverside (smoking allowed)",
-        "maxPartySize": 6,
-        "smokingAllowed": true,
-        "childrenAllowed": false
-      },
-      "children": 0,
-      "smoking": true,
-      "birthday": false,
-      "birthdayName": "",
-      "id": 0.2673319225631514
-    },
-    {
-      "day": "26",
-      "time": "21:00",
-      "name": "RUBEN",
-      "email": "rubengonzalez663@gmail.com",
-      "phone": "+23 232323232",
-      "partySize": 1,
-      "region": {
-        "name": "Riverside (smoking allowed)",
-        "maxPartySize": 6,
-        "smokingAllowed": true,
-        "childrenAllowed": false
+        "name": "Main Hall",
+        "maxPartySize": 12,
+        "smokingAllowed": false,
+        "childrenAllowed": true
       },
       "children": 0,
       "smoking": false,
-      "birthday": false,
+      "birthday": true,
       "birthdayName": "",
-      "id": 0.9215160437063856
+      "id": 2287
     },
     {
       "day": "24",
@@ -146,163 +51,11 @@
         "smokingAllowed": false,
         "childrenAllowed": true
       },
-      "children": 1,
-      "smoking": false,
-      "birthday": true,
-      "birthdayName": "oijkjm",
-      "id": 0.7386806042789176
-    },
-    {
-      "day": "24",
-      "time": "19:30",
-      "name": "RUBEN",
-      "email": "rubengonzalez663@gmail.com",
-      "phone": "+23 232323232",
-      "partySize": 9,
-      "region": {
-        "name": "Main Hall",
-        "maxPartySize": 12,
-        "smokingAllowed": false,
-        "childrenAllowed": true
-      },
-      "children": 0,
-      "smoking": false,
-      "birthday": false,
-      "birthdayName": "",
-      "id": 0.728889005955907
-    },
-    {
-      "day": "24",
-      "time": "19:00",
-      "name": "RUBEN",
-      "email": "rubengonzalez663@gmail.com",
-      "phone": "+23 232323232",
-      "partySize": 6,
-      "region": {
-        "name": "Main Hall",
-        "maxPartySize": 12,
-        "smokingAllowed": false,
-        "childrenAllowed": true
-      },
-      "children": 0,
-      "smoking": false,
-      "birthday": false,
-      "birthdayName": "",
-      "id": 0.1610926607373382
-    },
-    {
-      "day": "24",
-      "time": "21:30",
-      "name": "RUBEN",
-      "email": "rubengonzalez663@gmail.com",
-      "phone": "+23 232323232",
-      "partySize": 3,
-      "region": {
-        "name": "Main Hall",
-        "maxPartySize": 12,
-        "smokingAllowed": false,
-        "childrenAllowed": true
-      },
-      "children": 3,
-      "smoking": false,
-      "birthday": false,
-      "birthdayName": "",
-      "id": 0.5481214672124675
-    },
-    {
-      "day": "25",
-      "time": "19:00",
-      "name": "RUBEN",
-      "email": "rubengonzalez663@gmail.com",
-      "phone": "+23 232323232",
-      "partySize": 4,
-      "region": {
-        "name": "Main Hall",
-        "maxPartySize": 12,
-        "smokingAllowed": false,
-        "childrenAllowed": true
-      },
       "children": 4,
       "smoking": false,
-      "birthday": true,
-      "birthdayName": "test",
-      "id": 0.9020237210095323
-    },
-    {
-      "day": "31",
-      "time": "20:00",
-      "name": "RUBEN",
-      "email": "rubengonzalez663@gmail.com",
-      "phone": "+23 232323232",
-      "partySize": 8,
-      "region": {
-        "name": "Riverside",
-        "maxPartySize": 8,
-        "smokingAllowed": false,
-        "childrenAllowed": true
-      },
-      "children": 0,
-      "smoking": false,
-      "birthday": true,
-      "birthdayName": "",
-      "id": 0.1772428125183816
-    },
-    {
-      "day": "24",
-      "time": "18:00",
-      "name": "RUBEN",
-      "email": "rubengonzalez663@gmail.com",
-      "phone": "+23 232323232",
-      "partySize": 2,
-      "region": {
-        "name": "Riverside",
-        "maxPartySize": 8,
-        "smokingAllowed": false,
-        "childrenAllowed": true
-      },
-      "children": 1,
-      "smoking": false,
-      "birthday": true,
-      "birthdayName": "",
-      "id": 0.18465874618369793
-    },
-    {
-      "day": "24",
-      "time": "18:00",
-      "name": "RUBEN",
-      "email": "rubengonzalez663@gmail.com",
-      "phone": "+23 232323232",
-      "partySize": 1,
-      "region": {
-        "name": "Riverside",
-        "maxPartySize": 8,
-        "smokingAllowed": false,
-        "childrenAllowed": true
-      },
-      "children": 0,
-      "smoking": false,
       "birthday": false,
       "birthdayName": "",
-      "id": 0.5607647628544443
-    },
-    {
-      "day": "24",
-      "time": "18:00",
-      "name": "RUBEN",
-      "email": "rubengonzalez663@gmail.com",
-      "phone": "+23 232323232",
-      "partySize": 7,
-      "region": {
-        "name": "Riverside",
-        "maxPartySize": 8,
-        "smokingAllowed": false,
-        "childrenAllowed": true
-      },
-      "children": 6,
-      "smoking": false,
-      "birthday": false,
-      "birthdayName": "",
-      "id": 0.9423644924337449
+      "id": 1228
     }
   ],
   "timeSlots": [

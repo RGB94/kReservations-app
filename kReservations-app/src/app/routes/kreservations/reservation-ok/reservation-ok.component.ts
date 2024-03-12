@@ -13,10 +13,12 @@ export class ReservationOkComponent implements OnInit {
   constructor(private reservationKafeService: ReservationKafe, private router: Router) {}
 
   ngOnInit(): void {
-    //TODO: add api call to reservations and calculate the space left in the restaurant para llegar a maximo 12.
     this.reservation = this.reservationKafeService.reservationConfirmed;
   }
 
+  /**
+   * Jumps to reservation component and resets some data
+   */
   startNewReservation(): void {
     this.reservationKafeService.reservationConfirmed = undefined;
     this.reservationKafeService.reservationNotConfirmed = undefined;

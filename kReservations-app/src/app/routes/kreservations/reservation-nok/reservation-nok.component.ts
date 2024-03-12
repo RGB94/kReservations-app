@@ -20,6 +20,9 @@ export class ReservationNokComponent implements OnInit {
     this.day = String(this.reservationNotConfirmed?.selectedDate?.getDate());
   }
 
+  /**
+   * Returns to reservation component to adjust the active reservation
+   */
   editReservation(): void {
     this.reservationKafeService.reservationConfirmed = undefined;
     this.router.navigate(['/reservation']);

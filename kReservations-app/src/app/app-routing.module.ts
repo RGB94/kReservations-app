@@ -7,7 +7,6 @@ import { SummaryGuard } from './core/services/summary-guard.service';
 import { ReservationOkComponent } from './routes/kreservations/reservation-ok/reservation-ok.component';
 import { ReservationNokComponent } from './routes/kreservations/reservation-nok/reservation-nok.component';
 
-// I'm not hiding the routes for this app
 const routes: Routes = [
   {
     path: 'reservation',
