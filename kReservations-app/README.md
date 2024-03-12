@@ -2,26 +2,16 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.2.16.
 
-## Development server
+## How to run the app
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+- Download the app from the main branch
+- Install on your computer node version 14.15.0 and angular cli version 12.2.16.
+- Open the app go to C:\XXX\XXX\XXX\XXX\kReservations-app\kReservations-app>
+- Run npm i
+- on the same terminal run, npm start
+- Open a second terminal at the same route and run npx json-server db.json
+- Open browser and paste http://localhost:4200/#/reservation
+- Have fun!!
 
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+- NOTE: I have set a calculated random number for the ID to insert it in the db.json it should be fine because there are a lot of number
+  and it should not collide but just in case if there is some issue regarding the checking whether the user can create or not a reservation should be because of that.
