@@ -1,4 +1,4 @@
-@import "../../../../styles.scss";
+@import '../../../../styles.scss';
 .reservation-ok {
   padding: 15px 52px;
   &-message {
@@ -6,8 +6,10 @@
   }
   &-button {
     padding-top: 20px;
-    color: $color-white;
-    // background: linear-gradient(0deg, #666 0, #000);
-    border-color: #000;
+    .submit-button {
+      color: $color-white;
+      background: linear-gradient(0deg, #666 0, #000);
+      border-color: #000;
+    }
   }
 }

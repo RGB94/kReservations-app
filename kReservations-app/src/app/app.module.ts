@@ -4,10 +4,11 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SharedModule } from './shared/shared.module';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { registerLocaleData } from '@angular/common';
 import es from '@angular/common/locales/es';
 import { KreservationsModule } from './routes/kreservations/kreservations.module';
+import { AddHeaderInterceptor } from './add-header.interceptor';
 registerLocaleData(es);
 
 @NgModule({
@@ -17,8 +18,13 @@ registerLocaleData(es);
   providers: [
     {
       provide: LOCALE_ID,
-      useValue: 'es-ES',
+      useValue: 'es-ES'
     },
-  ],
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AddHeaderInterceptor,
+      multi: true
+    }
+  ]
 })
 export class AppModule {}

@@ -6,19 +6,8 @@ import { ReservationNokComponent } from './reservation-nok/reservation-nok.compo
 import { ReservationSummaryComponent } from './reservation-summary/reservation-summary.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 
-
-
-
 @NgModule({
-  declarations: [
-    ReservationComponent,
-    ReservationOkComponent,
-    ReservationNokComponent,
-    ReservationSummaryComponent
-  ],
-  imports: [
-    CommonModule,
-    SharedModule
-  ]
+  declarations: [ReservationComponent, ReservationOkComponent, ReservationNokComponent, ReservationSummaryComponent],
+  imports: [CommonModule, SharedModule]
 })
-export class KreservationsModule { }
+export class KreservationsModule {}

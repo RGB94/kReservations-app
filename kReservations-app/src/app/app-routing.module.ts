@@ -7,17 +7,16 @@ import { SummaryGuard } from './core/services/summary-guard.service';
 import { ReservationOkComponent } from './routes/kreservations/reservation-ok/reservation-ok.component';
 import { ReservationNokComponent } from './routes/kreservations/reservation-nok/reservation-nok.component';
 
-// I'm not hiding the routes for this app
 const routes: Routes = [
   {
     path: 'reservation',
     component: ReservationComponent,
-    canDeactivate: [FormGuard],
+    canDeactivate: [FormGuard]
   },
   {
     path: 'reservation-summary',
     component: ReservationSummaryComponent,
-    canDeactivate: [SummaryGuard],
+    canDeactivate: [SummaryGuard]
   },
   {
     path: 'reservation-confirmed',
@@ -29,8 +28,8 @@ const routes: Routes = [
   },
   {
     path: '**',
-    redirectTo: 'reservation',
-  },
+    redirectTo: 'reservation'
+  }
 ];
 
 @NgModule({
@@ -40,8 +39,8 @@ const routes: Routes = [
       onSameUrlNavigation: 'reload',
       scrollPositionRestoration: 'enabled',
       anchorScrolling: 'enabled'
-    }),
+    })
   ],
-  exports: [RouterModule],
+  exports: [RouterModule]
 })
 export class AppRoutingModule {}

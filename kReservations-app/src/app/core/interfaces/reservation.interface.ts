@@ -1,4 +1,4 @@
-export interface reservationNotConfirmed {
+export interface ActiveTableReservation {
   selectedDate: Date;
   selectedTime: TimeSlot;
   name: string;
@@ -6,19 +6,18 @@ export interface reservationNotConfirmed {
   phone: string;
   partySize: number;
   selectedRegion: Region;
-  maxPartySize: number;
+  tableCapacity: number;
   children: number;
   smoking: boolean;
   birthday: boolean;
   birthdayName: string;
   isValidEmail: boolean;
-  isValidPhone: boolean;
   partySizeInfo: string;
   minDate: Date;
   maxDate: Date;
 }
 
-export interface Reservation {
+export interface TableReservation {
   id: number | undefined;
   day: string | undefined;
   time: string | undefined;
@@ -35,7 +34,7 @@ export interface Reservation {
 
 export interface Region {
   name: string;
-  maxPartySize: number;
+  tableCapacity: number;
   smokingAllowed: boolean;
   childrenAllowed: boolean;
 }

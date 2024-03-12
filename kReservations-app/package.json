@@ -1,12 +1,20 @@
 {
   "name": "k-reservations-app",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
+  },
+  "prettier": {
+    "trailingComma": "none",
+    "semi": true,
+    "singleQuote": true,
+    "jsxSingleQuote": true,
+    "printWidth": 120,
+    "tabWidth": 2
   },
   "private": true,
   "dependencies": {

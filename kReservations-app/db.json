@@ -1,42 +1,83 @@
 {
   "reservations": [
     {
-      "id": 0,
-      "day": "24",
-      "time": "18:00",
-      "name": "test",
-      "email": "test",
-      "phone": "test",
-      "partySize": 5,
-      "region": {
-        "name": "Bar",
-        "maxPartySize": 12,
-        "smokingAllowed": false,
-        "childrenAllowed": true
-      },
-      "children": 0,
-      "smoking": false,
-      "birthday": true,
-      "birthdayName": ""
-    },
-    {
       "day": "24",
       "time": "18:30",
-      "name": "RUBEN",
-      "email": "rubengonzalez663@gmail.com",
+      "name": "test1",
+      "email": "test@gmail.com",
       "phone": "+23 232323232",
-      "partySize": 6,
+      "partySize": 4,
       "region": {
         "name": "Main Hall",
         "maxPartySize": 12,
         "smokingAllowed": false,
         "childrenAllowed": true
       },
-      "children": 0,
+      "children": 3,
       "smoking": false,
-      "birthday": false,
-      "birthdayName": "",
-      "id": 0.5108245805047726
+      "birthday": true,
+      "birthdayName": "test test",
+      "id": 6806
+    }
+  ],
+  "timeSlots": [
+    {
+      "name": "18:00",
+      "code": "18:00"
+    },
+    {
+      "name": "18:30",
+      "code": "18:30"
+    },
+    {
+      "name": "19:00",
+      "code": "19:00"
+    },
+    {
+      "name": "19:30",
+      "code": "19:30"
+    },
+    {
+      "name": "20:00",
+      "code": "20:00"
+    },
+    {
+      "name": "20:30",
+      "code": "20:30"
+    },
+    {
+      "name": "21:00",
+      "code": "21:00"
+    },
+    {
+      "name": "21:30",
+      "code": "21:30"
+    }
+  ],
+  "regions": [
+    {
+      "name": "Main Hall",
+      "maxPartySize": 12,
+      "smokingAllowed": false,
+      "childrenAllowed": true
+    },
+    {
+      "name": "Bar",
+      "maxPartySize": 4,
+      "smokingAllowed": false,
+      "childrenAllowed": false
+    },
+    {
+      "name": "Riverside",
+      "maxPartySize": 8,
+      "smokingAllowed": false,
+      "childrenAllowed": true
+    },
+    {
+      "name": "Riverside (smoking allowed)",
+      "maxPartySize": 6,
+      "smokingAllowed": true,
+      "childrenAllowed": false
     }
   ]
 }

@@ -6,19 +6,19 @@
   </section>
   <section>
     <div class="reservation-ok-message">
-      We have confirmed the reservation in {{ reservation?.name }} name on the
-      {{ reservation?.day }} at {{ reservation?.time }} p.m. for
-      {{ reservation?.partySize }} people in the
-      {{ reservation?.region?.name }} region
+      We have confirmed the table reservation in <strong>{{ reservation?.name }}</strong> name on day
+      <strong>{{ reservation?.day }}</strong> at <strong>{{ reservation?.time }} p.m.</strong> for
+      <strong>{{ reservation?.partySize }}</strong> people at the
+      <strong>{{ reservation?.region?.name }}</strong> region
+      <span *ngIf="reservation?.birthday"> celebrating a birthday.</span>
     </div>
+    <p></p>
   </section>
   <section>
     <div class="reservation-ok-button">
       <div class="row">
-        <div class="col-md-2">
-          <button class="submit-button" (click)="startNewReservation()">
-            New Reservation
-          </button>
+        <div class="col-md-3">
+          <button class="submit-button" (click)="startNewReservation()">New Reservation</button>
         </div>
       </div>
     </div>
