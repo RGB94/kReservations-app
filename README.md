@@ -8,3 +8,6 @@ How to run the app
 - Open a second terminal at the same route and run npx json-server db.json
 - Open browser and paste http://localhost:4200/#/reservation
 - Have fun!!
+
+NOTE: I have set a calculated random number for the ID to insert it in the db.json it should be fine because there are a lot of number 
+and it should not collide but just in case if there is some issue regarding the checking whether the user can create or not a reservation should be because of that.
