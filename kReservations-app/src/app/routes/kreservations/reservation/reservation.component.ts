@@ -111,7 +111,7 @@ export class ReservationComponent implements OnInit {
    */
   onKeyPress(event: KeyboardEvent) {
     const char = event.key; // Get the character from the event
-    const regex = new RegExp(/^[a-zA-Z]+$/); // Regular expression for letters only
+    const regex = new RegExp(/^[a-zA-Z\s]*$/); // Regular expression for letters only
 
     if (!regex.test(char)) {
       event.preventDefault(); // Prevent invalid character from being entered
@@ -175,6 +175,7 @@ export class ReservationComponent implements OnInit {
   isSubmitDisabled(): boolean {
     return (
       this.reservationForm?.invalid ||
+      this.reservation.name.trim() === '' ||
       this.reservation?.children >= this.reservation?.partySize ||
       !this.reservation.isValidEmail
     );
@@ -184,6 +185,8 @@ export class ReservationComponent implements OnInit {
    * Jumps to the reservation summary component
    */
   showReservationSummary() {
+    //removing spaces before first and after last letter.
+    this.reservation.name = this.reservation.name.trim();
     this.reservationService.activeTableReservation = { ...this.reservation };
     this.router.navigate(['/reservation-summary']);
   }
