@@ -2,6 +2,8 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.2.16.
 
+Simple project to make restaurant table reservations.
+
 ## How to run the app
 
 - Download the app from the main branch
